@@ -5,16 +5,18 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    private int size;
 
     void clear() {
-        for (int i = 0; i < storage.length; i++) {
+        for (int i = 0; i <= size; i++) {
             if (storage[i] != null)
                 storage[i] = null;
         }
+        size = 0;
     }
 
     void save(Resume r) {
-        for (int i = 0; i < storage.length; i++) {
+        for (int i = 0; i <= size; i++) {
             if (storage[i] != null) {
                 if (storage[i].uuid.equals(r.uuid)) {
                     System.out.println("резюме с данным id уже существует, введите другой id");
@@ -22,19 +24,14 @@ public class ArrayStorage {
                 }
             }
         }
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                storage[i] = r;
-                break;
-            }
-        }
+        storage[size] = r;
+        size++;
     }
 
     Resume get(String uuid) {
-        Resume[] get = getAll();
-        for (Resume g : get) {
-            if (g.uuid.equals(uuid))
-                return g;
+        for (int i = 0; i <= size; i++) {
+            if (storage[i].uuid.equals(uuid))
+                return storage[i];
         }
         System.out.println("резюме не найдено");
         return null;
@@ -42,7 +39,7 @@ public class ArrayStorage {
 
     void delete(String uuid) {
         boolean isExist = false;
-        for (int i = 0; i < storage.length; i++) {
+        for (int i = 0; i <= size+1; i++) {
             if (storage[i] == null) {
                 return;
             }
@@ -57,14 +54,12 @@ public class ArrayStorage {
                     }
                     storage[i] = null;
                 }
+                size--;
             }
-            if (!isExist) {
-                System.out.println("резюме не найдено");
-                return;
-            }
-
         }
-
+        if (!isExist) {
+            System.out.println("резюме не найдено");
+        }
     }
 
     /**
@@ -75,11 +70,6 @@ public class ArrayStorage {
     }
 
     int size() {
-        int size = 0;
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] != null)
-                size++;
-        }
         return size;
     }
 }
