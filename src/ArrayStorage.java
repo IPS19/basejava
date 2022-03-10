@@ -8,20 +8,17 @@ public class ArrayStorage {
     private int size;
 
     void clear() {
-        for (int i = 0; i <= size; i++) {
-            if (storage[i] != null)
+        for (int i = 0; i < size; i++) {
                 storage[i] = null;
         }
         size = 0;
     }
 
     void save(Resume r) {
-        for (int i = 0; i <= size; i++) {
-            if (storage[i] != null) {
-                if (storage[i].uuid.equals(r.uuid)) {
-                    System.out.println("резюме с данным id уже существует, введите другой id");
-                    return;
-                }
+        for (int i = 0; i < size; i++) {
+            if (storage[i].uuid.equals(r.uuid)) {
+                System.out.println("резюме с данным id уже существует, введите другой id");
+                return;
             }
         }
         storage[size] = r;
@@ -29,7 +26,7 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i <= size; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid))
                 return storage[i];
         }
@@ -39,21 +36,14 @@ public class ArrayStorage {
 
     void delete(String uuid) {
         boolean isExist = false;
-        for (int i = 0; i <= size+1; i++) {
-            if (storage[i] == null) {
-                return;
-            }
+        for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 isExist = true;
-                storage[i] = null;
-                if (storage[i + 1] != null) {
-                    while (storage[i + 1] != null) {
-                        Resume temp = storage[i + 1];
-                        storage[i] = temp;
-                        i++;
-                    }
-                    storage[i] = null;
+                while (storage[i + 1] != null) {
+                    storage[i] = storage[i + 1];
+                    i++;
                 }
+                    storage[i] = null;
                 size--;
             }
         }
@@ -66,7 +56,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOf(storage, size());
+        return Arrays.copyOf(storage,size);
     }
 
     int size() {
