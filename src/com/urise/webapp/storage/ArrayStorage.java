@@ -42,7 +42,7 @@ public class ArrayStorage {
     public void delete(String uuid) {
         if (findIndex(uuid) != -1) {
             int index = findIndex(uuid);
-            System.arraycopy(storage,index+1,storage,index,(size - index));
+            System.arraycopy(storage, index + 1, storage, index, (size - index));
             storage[size] = null;
             size--;
         }
