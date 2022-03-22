@@ -17,7 +17,7 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (r == null) {
+        if (r.getUuid() == null) {
             return;
         }
         if (findIndex(r.getUuid()) != -1) {
