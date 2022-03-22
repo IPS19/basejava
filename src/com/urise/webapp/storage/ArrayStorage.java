@@ -17,27 +17,28 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (r != null) {
-            if (findIndex(r.getUuid()) != -1) {
-                System.out.println("резюме с данным id ( " + r.getUuid() + " ) уже существует, введите другой id");
-                return;
-            }
-            if (size == storage.length) {
-                System.out.println("хранилище переполнено, запись невозможна");
-                return;
-            }
-            storage[size] = r;
-            size++;
+        if (r == null) {
+            return;
         }
+        if (findIndex(r.getUuid()) != -1) {
+            System.out.println("резюме с данным id ( " + r.getUuid() + " ) уже существует, введите другой id");
+            return;
+        }
+        if (size == storage.length) {
+            System.out.println("хранилище переполнено, запись невозможна");
+            return;
+        }
+        storage[size] = r;
+        size++;
     }
 
     public Resume get(String uuid) {
         int index = findIndex(uuid);
         if (index != -1) {
             return storage[index];
-        } else
-            System.out.println("резюме " + uuid + " не найдено");
-        return new Resume();
+        }
+        System.out.println("резюме " + uuid + " не найдено");
+        return null;
     }
 
     public void delete(String uuid) {
