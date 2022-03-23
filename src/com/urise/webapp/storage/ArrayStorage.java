@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[3];
     private int size;
 
     public void clear() {
@@ -17,11 +17,12 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (r.getUuid() == null) {
+        String uuid = r.getUuid();
+        if (uuid == null) {
             return;
         }
-        if (findIndex(r.getUuid()) != -1) {
-            System.out.println("резюме с данным id ( " + r.getUuid() + " ) уже существует, введите другой id");
+        if (findIndex(uuid) != -1) {
+            System.out.println("резюме с данным id ( " + uuid + " ) уже существует, введите другой id");
             return;
         }
         if (size == storage.length) {
@@ -44,8 +45,8 @@ public class ArrayStorage {
     public void delete(String uuid) {
         int index = findIndex(uuid);
         if (index != -1) {
-            System.arraycopy(storage, index + 1, storage, index, (size - index));
-            storage[size] = null;
+            System.arraycopy(storage, index + 1, storage, index, (storage.length - index - 1));
+            storage[size - 1] = null;
             size--;
         } else
             System.out.println("резюме " + uuid + " не найдено");
