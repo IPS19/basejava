@@ -7,9 +7,7 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
-    private Resume[] storage = new Resume[3];
-    private int size;
+public class ArrayStorage extends AbstractArrayStorage {
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -59,21 +57,15 @@ public class ArrayStorage {
         return Arrays.copyOf(storage, size);
     }
 
-    public int size() {
-        return size;
-    }
-
     public void update(Resume resume) {
-        if (resume != null) {
             int index = findIndex(resume.getUuid());
             if (index != -1) {
                 storage[index] = resume;
             } else
                 System.out.println("резюме " + resume.getUuid() + " не найдено");
-        }
     }
 
-    private int findIndex(String uuid) {
+    protected int findIndex(String uuid) {
         if (uuid != null) {
             for (int i = 0; i < size; i++) {
                 if (storage[i].getUuid().equals(uuid))
