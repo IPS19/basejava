@@ -16,14 +16,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return size;
     }
 
-    public Resume get(String uuid) {
-        int index = findIndex(uuid);
-        if (index != -1) {
-            return storage[index];
-        }
-        System.out.println("резюме " + uuid + " не найдено");
-        return null;
-    }
+    public abstract Resume get(String uuid);
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -32,4 +25,9 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract int findIndex(String uuid);
 
+    public Resume[] getAll() {
+        return Arrays.copyOf(storage, size);
+    }
+
+    public abstract void update(Resume resume);
 }

@@ -43,7 +43,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     public void delete(String uuid) {
         int index = findIndex(uuid);
         if (index != -1) {
-            System.arraycopy(storage, index + 1, storage, index, (storage.length - index - 1));
+            System.arraycopy(storage, index + 1, storage, index, (size - index - 1));
             storage[size - 1] = null;
             size--;
         } else
@@ -53,9 +53,9 @@ public class ArrayStorage extends AbstractArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    public Resume[] getAll() {
+/*    public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
-    }
+    }*/
 
     public void update(Resume resume) {
             int index = findIndex(resume.getUuid());
