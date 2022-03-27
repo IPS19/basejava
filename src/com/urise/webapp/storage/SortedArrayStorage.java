@@ -14,49 +14,16 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void save(Resume r) {
-        if (storage[0] == null) {
-            storage[0] = r;
-            return;
-        }
+    public boolean checkExistResume(String uuid) {
+        return findIndex(uuid) >= 0;
+    }
+
+    @Override
+    public void writeToStorage(Resume r) {
         int index = findIndex(r.getUuid());
-        if (index >= 0) {
-            System.out.println("резюме с данным id ( " + r.getUuid() + " ) уже существует, введите другой id");
-        } else {
-            index = index * (-1);
-            System.arraycopy(storage, index, storage, index + 1, (size - index +1));
-            storage[index] = r;
-            size++;
-        }
-    }
-
-    @Override
-    public Resume get(String uuid) {
-        int index = findIndex(uuid);
-        if (index >= 0) {
-            return storage[index];
-        }
-        System.out.println("резюме " + uuid + " не найдено");
-        return null;
-    }
-
-    @Override
-    public void delete(String uuid) {
-        int index = findIndex(uuid);
-        if (index >= 0) {
-            System.arraycopy(storage, index + 1, storage, index, (size - index));
-            storage[size - 1] = null;
-            size--;
-        } else
-            System.out.println("резюме " + uuid + " не найдено");
-    }
-
-    @Override
-    public void update(Resume resume) {
-        int index = findIndex(resume.getUuid());
-        if (index >= 0) {
-            storage[index] = resume;
-        } else
-            System.out.println("резюме " + resume.getUuid() + " не найдено");
+        index = -index;
+        System.arraycopy(storage, index - 1, storage, index + 1, (size - index) + 1);
+        storage[index - 1] = r;
+        size++;
     }
 }
