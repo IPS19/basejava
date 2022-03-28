@@ -14,16 +14,10 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public boolean checkExistResume(String uuid) {
-        return findIndex(uuid) >= 0;
-    }
-
-    @Override
-    public void writeToStorage(Resume r) {
+    public void addToArray(Resume r) {
         int index = findIndex(r.getUuid());
         index = -index;
         System.arraycopy(storage, index - 1, storage, index + 1, (size - index) + 1);
         storage[index - 1] = r;
-        size++;
     }
 }

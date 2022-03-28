@@ -8,14 +8,8 @@ import com.urise.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public boolean checkExistResume(String uuid) {
-        return findIndex(uuid) != -1;
-    }
-
-    @Override
-    public void writeToStorage(Resume r) {
+    public void addToArray(Resume r) {
         storage[size] = r;
-        size++;
     }
 
     /**

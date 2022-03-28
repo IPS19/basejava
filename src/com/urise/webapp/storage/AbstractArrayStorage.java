@@ -14,19 +14,13 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract int findIndex(String uuid);
 
-    protected abstract boolean checkExistResume(String uuid);
-
-    protected abstract void writeToStorage(Resume r);
-
-    protected boolean idIsNull(String uuid) {
-        return uuid == null;
-    }
+    protected abstract void addToArray(Resume r);
 
     public final void save(Resume r) {
         String uuid = r.getUuid();
-        if (idIsNull(uuid))
+        if (uuid == null)
             return;
-        if (checkExistResume(uuid)) {
+        if (findIndex(uuid) >= 0) {
             System.out.println("резюме с данным id ( " + uuid + " ) уже существует, введите другой id");
             return;
         }
@@ -34,30 +28,33 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("хранилище переполнено, запись невозможна");
             return;
         }
-        writeToStorage(r);
+        addToArray(r);
+        size++;
     }
 
     public final Resume get(String uuid) {
-        if (checkExistResume(uuid)) {
-            return storage[findIndex(uuid)];
+        int index = findIndex(uuid);
+        if (index >= 0) {
+            return storage[index];
         }
-        System.out.println("резюме " + uuid + " не найдено");
+        System.out.println("резюме: " + uuid + " не найдено");
         return null;
     }
 
     public final void delete(String uuid) {
-        if (checkExistResume(uuid)) {
-            int index = findIndex(uuid);
+        int index = findIndex(uuid);
+        if (index >= 0) {
             System.arraycopy(storage, index + 1, storage, index, (size - index));
             storage[size - 1] = null;
             size--;
-        } else System.out.println("резюме " + uuid + " не найдено");
+        } else System.out.println("резюме: " + uuid + " не найдено");
     }
 
     public final void update(Resume resume) {
-        if (checkExistResume(resume.getUuid())) {
-            storage[findIndex(resume.getUuid())] = resume;
-        } else System.out.println("резюме " + resume.getUuid() + " не найдено");
+        int index = findIndex(resume.getUuid());
+        if (index >= 0) {
+            storage[index] = resume;
+        } else System.out.println("резюме: " + resume.getUuid() + " не найдено");
     }
 
     public final void clear() {
