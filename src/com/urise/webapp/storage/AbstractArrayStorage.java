@@ -47,9 +47,9 @@ public abstract class AbstractArrayStorage implements Storage {
             if (index == size - 1) {
                 storage[index] = null;
             } else {
-                System.arraycopy(storage, index + 1, storage, index, (size - index));
-                storage[size + 1] = null;
                 size--;
+                System.arraycopy(storage, index + 1, storage, index, (size - index));
+                storage[size] = null;
             }
         } else System.out.println("резюме '" + uuid + "' не найдено");
     }
