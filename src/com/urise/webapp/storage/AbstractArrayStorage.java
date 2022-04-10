@@ -36,7 +36,6 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             return storage[index];
         } throw new NotExistStorageException(uuid);
-        //System.out.println("резюме '" + uuid + "' не найдено");
     }
 
     public final void delete(String uuid) {
@@ -57,7 +56,6 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             storage[index] = resume;
         } else throw new NotExistStorageException(resume.getUuid());
-           // System.out.println("резюме '" + resume.getUuid() + "' не найдено");
     }
 
     public final void clear() {
