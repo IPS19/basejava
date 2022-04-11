@@ -50,6 +50,7 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() throws Exception {
+       //Assert.assertArrayEquals(, storage.getAll());
     }
 
     @Test
@@ -75,5 +76,13 @@ public abstract class AbstractArrayStorageTest {
         storage.get("dummy");
     }
 
+    @Test(expected = ExistStorageException.class)
+    public void saveAlreadyExist() throws Exception {
+        storage.save(new Resume(UUID_2));
+    }
 
+    @Test(expected = StorageException.class)
+    public void storageOverflow() throws Exception {
+        storage.save(new Resume("uuid4"));
+    }
 }

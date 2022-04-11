@@ -19,6 +19,5 @@ public class MainReflection {
         Method methodToString = resumeClass.getMethod("toString");
         System.out.println(methodToString.invoke(objectResume));
     }
-
 }
 
