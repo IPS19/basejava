@@ -20,4 +20,3 @@ public class MainReflection {
         System.out.println(methodToString.invoke(objectResume));
     }
 }
-
