@@ -41,9 +41,9 @@ public class ListStorage extends AbstractStorage {
 
     public final void delete(String uuid) {
         Iterator<Resume> iterator = storage.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Resume r = iterator.next();
-            if(r.getUuid().equals(uuid)){
+            if (r.getUuid().equals(uuid)) {
                 iterator.remove();
                 return;
             }
@@ -58,7 +58,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public final int size() {
-        return 0;
+        return storage.size();
     }
 }
 

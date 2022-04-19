@@ -6,5 +6,4 @@ import java.util.Arrays;
 
 public abstract class AbstractStorage implements Storage {
     protected static final int STORAGE_LIMIT = 10_000;
-
 }
