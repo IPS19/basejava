@@ -96,12 +96,8 @@ public class ListStorageTest {
 
     @Test(expected = StorageException.class)
     public void storageOverflow() throws Exception {
-        try {
-            for (int i = 4; i <= AbstractStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
-            }
-        } catch (StorageException e) {
-            Assert.fail("too soon overflow");
+        for (int i = 4; i <= AbstractStorage.STORAGE_LIMIT; i++) {
+            storage.save(new Resume());
         }
         storage.save(new Resume());
     }
