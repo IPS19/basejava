@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
@@ -10,7 +11,8 @@ import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    protected List<Resume> storage = new ArrayList<>(STORAGE_LIMIT);
+
+    private final List<Resume> storage = new ArrayList<>(STORAGE_LIMIT);
 
     @Override
     public void clear() {
@@ -18,8 +20,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     public final void save(Resume r) {
-        if (storage.size() == STORAGE_LIMIT) {
-            throw new StorageException("storage overflow", r.getUuid());
+        if (storage.contains(r)){
+            throw new ExistStorageException(r.getUuid());
         }
         storage.add(r);
     }

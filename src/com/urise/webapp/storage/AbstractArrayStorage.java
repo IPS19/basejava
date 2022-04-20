@@ -47,14 +47,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
                 System.arraycopy(storage, index + 1, storage, index, (size - index));
                 storage[size] = null;
             }
-        } else throw new NotExistStorageException(uuid);
+        } throw new NotExistStorageException(uuid);
     }
 
     public final void update(Resume resume) {
         int index = findIndex(resume.getUuid());
         if (index >= 0) {
             storage[index] = resume;
-        } else throw new NotExistStorageException(resume.getUuid());
+        } throw new NotExistStorageException(resume.getUuid());
     }
 
     public final void clear() {
