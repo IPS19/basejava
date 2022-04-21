@@ -11,40 +11,50 @@ import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
+    private final List<Resume> storage = new ArrayList<>();
 
-    private final List<Resume> storage = new ArrayList<>(STORAGE_LIMIT);
+    @Override
+    protected int findIndex(String uuid) {
+        for (int i = 0; i < storage.size(); i++) {
+            if (storage.get(i).getUuid().equals(uuid))
+                return i;
+        }
+        return -1;
+    }
 
     @Override
     public void clear() {
         storage.clear();
     }
 
+    @Override
     public final void save(Resume r) {
-        if (storage.contains(r)){
+        if (storage.contains(r)) {
             throw new ExistStorageException(r.getUuid());
         }
         storage.add(r);
     }
 
+    @Override
     public final Resume get(String uuid) {
-        for (Resume r : storage) {
-            if (r.getUuid().equals(uuid))
-                return r;
+        int index = findIndex(uuid);
+        if (index >= 0) {
+            return storage.get(index);
         }
         throw new NotExistStorageException(uuid);
     }
 
+    @Override
     public final void update(Resume resume) {
-        int index = 0;
-        for (Resume r : storage) {
-            if (r.equals(resume)) {
-                storage.add(index, resume);
-                return;
-            } else index++;
+        int index = findIndex(resume.getUuid());
+        if (index >= 0) {
+            storage.set(index, resume);
+            return;
         }
         throw new NotExistStorageException(resume.getUuid());
     }
 
+    @Override
     public final void delete(String uuid) {
         Iterator<Resume> iterator = storage.iterator();
         while (iterator.hasNext()) {
