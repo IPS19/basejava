@@ -1,12 +1,7 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
@@ -28,43 +23,23 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public final void save(Resume r) {
-        if (storage.contains(r)) {
-            throw new ExistStorageException(r.getUuid());
-        }
+    public void saveToStorage(Resume r) {
         storage.add(r);
     }
 
     @Override
-    public final Resume get(String uuid) {
-        int index = findIndex(uuid);
-        if (index >= 0) {
-            return storage.get(index);
-        }
-        throw new NotExistStorageException(uuid);
+    public final Resume getViaIndex(int index) {
+        return storage.get(index);
     }
 
     @Override
-    public final void update(Resume resume) {
-        int index = findIndex(resume.getUuid());
-        if (index >= 0) {
-            storage.set(index, resume);
-            return;
-        }
-        throw new NotExistStorageException(resume.getUuid());
+    public void updateViaIndex(int index, Resume resume) {
+        storage.set(index, resume);
     }
 
     @Override
-    public final void delete(String uuid) {
-        Iterator<Resume> iterator = storage.iterator();
-        while (iterator.hasNext()) {
-            Resume r = iterator.next();
-            if (r.getUuid().equals(uuid)) {
-                iterator.remove();
-                return;
-            }
-        }
-        throw new NotExistStorageException(uuid);
+    public void deleteViaIndex(int index) {
+        storage.remove(index);
     }
 
     @Override
@@ -77,4 +52,3 @@ public class ListStorage extends AbstractStorage {
         return storage.size();
     }
 }
-
