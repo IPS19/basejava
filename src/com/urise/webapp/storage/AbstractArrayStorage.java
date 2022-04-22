@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+
 import java.util.Arrays;
 
 /**
@@ -26,7 +27,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return storage[index];
     }
 
-    public final void deleteViaIndex(int index){
+    public final void deleteViaIndex(int index) {
         if (index == size - 1) {
             storage[index] = null;
         } else {
