@@ -23,11 +23,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size++;
     }
 
-    public final Resume getViaIndex(int index) {
+    public final Resume getFromStorage(int index) {
         return storage[index];
     }
 
-    public final void deleteViaIndex(int index) {
+    public final void deleteFromStorage(int index) {
         if (index == size - 1) {
             storage[index] = null;
         } else {
@@ -37,7 +37,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         }
     }
 
-    public final void updateViaIndex(int index, Resume resume) {
+    public final void updateStorage(int index, Resume resume) {
         storage[index] = resume;
     }
 

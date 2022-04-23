@@ -29,17 +29,17 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public final Resume getViaIndex(int index) {
+    public final Resume getFromStorage(int index) {
         return storage.get(index);
     }
 
     @Override
-    public void updateViaIndex(int index, Resume resume) {
+    public void updateStorage(int index, Resume resume) {
         storage.set(index, resume);
     }
 
     @Override
-    public void deleteViaIndex(int index) {
+    public void deleteFromStorage(int index) {
         storage.remove(index);
     }
 

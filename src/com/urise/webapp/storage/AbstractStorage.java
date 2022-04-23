@@ -7,18 +7,18 @@ import com.urise.webapp.model.Resume;
 public abstract class AbstractStorage implements Storage {
     protected abstract int findIndex(String uuid);
 
-    public abstract Resume getViaIndex(int index);
+    public abstract Resume getFromStorage(int index);
 
     public abstract void saveToStorage(Resume r);
 
-    public abstract void updateViaIndex(int index, Resume resume);
+    public abstract void updateStorage(int index, Resume resume);
 
-    public abstract void deleteViaIndex(int index);
+    public abstract void deleteFromStorage(int index);
 
     public final Resume get(String uuid) {
         int index = findIndex(uuid);
         if (index >= 0) {
-            return getViaIndex(index);
+            return getFromStorage(index);
         }
         throw new NotExistStorageException(uuid);
     }
@@ -33,19 +33,17 @@ public abstract class AbstractStorage implements Storage {
 
     public final void update(Resume resume) {
         int index = findIndex(resume.getUuid());
-        if (index >= 0) {
-            updateViaIndex(index, resume);
-            return;
+        if (index < 0) {
+            throw new NotExistStorageException(resume.getUuid());
         }
-        throw new NotExistStorageException(resume.getUuid());
+        updateStorage(index, resume);
     }
 
     public final void delete(String uuid) {
         int index = findIndex(uuid);
-        if (index >= 0) {
-            deleteViaIndex(index);
-            return;
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
         }
-        throw new NotExistStorageException(uuid);
+        deleteFromStorage(index);
     }
 }
