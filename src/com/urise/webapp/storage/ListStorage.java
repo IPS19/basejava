@@ -10,12 +10,18 @@ public class ListStorage extends AbstractStorage {
     private final List<Resume> storage = new ArrayList<>();
 
     @Override
-    protected int findIndex(String uuid) {
+    protected int searchKey(Object key) {
         for (int i = 0; i < storage.size(); i++) {
-            if (storage.get(i).getUuid().equals(uuid))
+            if (storage.get(i).getUuid().equals(key))
                 return i;
         }
         return -1;
+    }
+
+    @Override
+    protected boolean isExist(String uuid) {
+        int index = searchKey(uuid);
+        return index >= 0;
     }
 
     @Override
@@ -29,8 +35,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public final Resume getFromStorage(int index, String uuid) {
-        return storage.get(index);
+    public final Resume getFromStorage(Object arg) {
+        return storage.get(searchKey(arg));
     }
 
     @Override

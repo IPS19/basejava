@@ -23,8 +23,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size++;
     }
 
-    public final Resume getFromStorage(int index,String uuid) {
-        return storage[index];
+
+
+    public final Resume getFromStorage(Object arg) {
+
+        return storage[searchKey((Integer) arg)];
     }
 
     public final void deleteFromStorage(int index, String uuid) {

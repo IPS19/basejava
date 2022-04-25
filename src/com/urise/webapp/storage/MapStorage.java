@@ -2,8 +2,8 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
@@ -11,20 +11,17 @@ public class MapStorage extends AbstractStorage {
     private final Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected int findIndex(String uuid) {
-        if (storage.containsKey(uuid)) {
-            return 0;
+    protected String searchKey(Object key) {
+        if (storage.containsKey(key)) {
+            return (String) key;
         }
-        return -1;
+        return null;
     }
 
     @Override
-    public Resume getFromStorage(int index, String uuid) {
-        for (Map.Entry<String, Resume> entry : storage.entrySet()) {
-            if (entry.getKey().equals(uuid)) {
-                return entry.getValue();
-            }
-        }
+    public Resume getFromStorage(Object arg) {
+        storage.get(arg);
+
         return null;
     }
 
