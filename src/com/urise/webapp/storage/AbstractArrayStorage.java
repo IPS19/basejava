@@ -33,7 +33,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return storage[(Integer) index];
     }
 
-    public final void deleteFromStorage(int index, String uuid) {
+    public final void deleteFromStorage(Object key) {
+        int index = (Integer) key;
         if (index == size - 1) {
             storage[index] = null;
         } else {
