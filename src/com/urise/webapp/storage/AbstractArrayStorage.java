@@ -23,11 +23,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size++;
     }
 
+    @Override
+    protected boolean isExist(String uuid) {
+        int index = (Integer) searchKey(uuid);
+        return index >= 0;
+    }
 
-
-    public final Resume getFromStorage(Object arg) {
-
-        return storage[searchKey((Integer) arg)];
+    public final Resume getFromStorage(Object index) {
+        return storage[(Integer) index];
     }
 
     public final void deleteFromStorage(int index, String uuid) {
@@ -40,8 +43,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         }
     }
 
-    public final void updateStorage(int index, Resume resume) {
-        storage[index] = resume;
+    public final void updateStorage(Object key, Resume r) {
+        storage[(Integer)key] = r;
     }
 
     public final void clear() {
