@@ -19,9 +19,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(String uuid) {
-        //return ((Integer) searchKey((uuid))) >= 0;
-        return storage.contains(new Resume(uuid));
+    protected boolean isExist(Object index) {
+        return (int) index >= 0;
     }
 
     @Override
@@ -45,8 +44,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void deleteFromStorage(Object key) {
-        storage.remove((Integer) key);
+    public void deleteFromStorage(Object index) {
+        storage.remove((int) index);
     }
 
     @Override

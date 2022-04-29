@@ -24,28 +24,26 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(String uuid) {
-        int index = (Integer) searchKey(uuid);
-        return index >= 0;
+    protected boolean isExist(Object index) {
+        return (int) index >= 0;
     }
 
     public final Resume getFromStorage(Object index) {
         return storage[(Integer) index];
     }
 
-    public final void deleteFromStorage(Object key) {
-        int index = (Integer) key;
-        if (index == size - 1) {
-            storage[index] = null;
+    public final void deleteFromStorage(Object index) {
+        if ((int)index == size - 1) {
+            storage[(int)index] = null;
         } else {
             size--;
-            System.arraycopy(storage, index + 1, storage, index, (size - index));
+            System.arraycopy(storage, (int)index + 1, storage, (int)index, (size - (int)index));
             storage[size] = null;
         }
     }
 
     public final void updateStorage(Object key, Resume r) {
-        storage[(Integer)key] = r;
+        storage[(Integer) key] = r;
     }
 
     public final void clear() {
