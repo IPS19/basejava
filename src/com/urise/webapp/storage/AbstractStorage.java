@@ -19,11 +19,11 @@ public abstract class AbstractStorage implements Storage {
     public abstract void deleteFromStorage(Object key);
 
     public final Resume get(String uuid) {
-        return getFromStorage(returnExistOrException(uuid));
+        return getFromStorage(receiveExist(uuid));
     }
 
-    private int returnExistOrException(String uuid) {
-        int index = (int) searchKey(uuid);
+    private Object receiveExist(String uuid) {
+        Object index = searchKey(uuid);
         if (isExist(index)) {
             return index;
         }
@@ -38,10 +38,10 @@ public abstract class AbstractStorage implements Storage {
     }
 
     public final void update(Resume resume) {
-        updateStorage(returnExistOrException(resume.getUuid()), resume);
+        updateStorage(receiveExist(resume.getUuid()), resume);
     }
 
     public final void delete(String uuid) {
-        deleteFromStorage(returnExistOrException(uuid));
+        deleteFromStorage(receiveExist(uuid));
     }
 }
