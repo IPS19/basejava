@@ -1,6 +1,7 @@
 package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,15 +11,12 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Object searchKey(String uuid) {
-        if (storage.containsKey(uuid)) {
-            return uuid;
-        }
-        return null;
+        return storage.containsKey(uuid) ? uuid : null;
     }
 
     @Override
-    protected boolean isExist(Object uuid) {
-        return uuid != null;
+    protected boolean isExist(Object key) {
+        return key != null;
     }
 
     @Override

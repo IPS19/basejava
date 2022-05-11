@@ -34,11 +34,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     public final void deleteFromStorage(Object index) {
-        if ((int)index == size - 1) {
-            storage[(int)index] = null;
+        if ((int) index == size - 1) {
+            storage[(int) index] = null;
         } else {
             size--;
-            System.arraycopy(storage, (int)index + 1, storage, (int)index, (size - (int)index));
+            System.arraycopy(storage, (int) index + 1, storage, (int) index, (size - (int) index));
             storage[size] = null;
         }
     }
