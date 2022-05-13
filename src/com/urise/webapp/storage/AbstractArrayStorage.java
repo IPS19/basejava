@@ -23,7 +23,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size++;
     }
 
-
     @Override
     protected boolean isExist(Object index) {
         return (int) index >= 0;
@@ -33,12 +32,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return storage[(Integer) index];
     }
 
-    public final void deleteFromStorage(Object index) {
-        if ((int) index == size - 1) {
-            storage[(int) index] = null;
+    public final void deleteFromStorage(Object indexArg) {
+        int index = (int) indexArg;
+        if (index == size - 1) {
+            size--;
+            storage[index] = null;
         } else {
             size--;
-            System.arraycopy(storage, (int) index + 1, storage, (int) index, (size - (int) index));
+            System.arraycopy(storage, index + 1, storage, index, (size - index));
             storage[size] = null;
         }
     }
