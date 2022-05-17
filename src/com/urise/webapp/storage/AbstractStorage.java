@@ -21,7 +21,7 @@ public abstract class AbstractStorage implements Storage {
 
     public abstract void deleteFromStorage(Object searchKey);
 
-    public abstract List<Resume> getItemsForSort();
+    public abstract List<Resume> getAsList();
 
     public final Resume get(String uuid) {
         return getFromStorage(findExistedSearchKey(uuid));
@@ -52,7 +52,7 @@ public abstract class AbstractStorage implements Storage {
 
     public final List<Resume> getAllSorted() {
         Comparator<Resume> compareIdThenFullName = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
-        List<Resume> list = getItemsForSort();
+        List<Resume> list = getAsList();
         list.sort(compareIdThenFullName);
         return list;
     }
