@@ -1,6 +1,6 @@
 package com.urise.webapp;
 
-import com.urise.webapp.model.SectionType;
+import com.urise.webapp.model.SectionEnum;
 
 public class TestSingleton {
     private static TestSingleton instance = new TestSingleton();
@@ -18,7 +18,7 @@ public class TestSingleton {
     public static void main(String[] args) {
         TestSingleton.getInstance().toString();
         Singleton instance = Singleton.valueOf("INSTANCE");
-        for(SectionType type: SectionType.values()){
+        for(SectionEnum type: SectionEnum.values()){
             System.out.println(type.getTitle());
         }
     }
