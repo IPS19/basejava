@@ -2,7 +2,7 @@ package com.urise.webapp.model;
 
 import java.util.List;
 
-public class ExperienceSection extends Sections {
+public class ExperienceSection implements Sections {
     private List<Experience> list;
 
     public List<Experience> getList() {

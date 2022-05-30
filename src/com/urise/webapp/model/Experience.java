@@ -3,12 +3,12 @@ package com.urise.webapp.model;
 import java.time.YearMonth;
 
 public class Experience {
-    private String title;
-    private YearMonth dateFrom;
-    private YearMonth dateTo;
-    private String nameOfInstitution;
-    private String nameOfSpecialization;
-    private String description;
+    private final String title;
+    private final YearMonth dateFrom;
+    private final YearMonth dateTo;
+    private final String nameOfInstitution;
+    private final String nameOfSpecialization;
+    private final String description;
 
     public Experience(String title, YearMonth dateFrom, YearMonth dateTo, String nameOfInstitution,
                       String nameOfSpecialization, String description) {

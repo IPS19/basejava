@@ -13,9 +13,9 @@ public class Resume implements Comparable<Resume> {
     private final String uuid;
     private final String fullName;
 
-    private final Map<ContactEnum,String> contacts = new HashMap<>();
+    private final Map<ContactEnum, String> contacts = new HashMap<>();
 
-    private final Map<SectionEnum,Sections> sections = new HashMap<>();
+    private final Map<SectionEnum, Sections> sections = new HashMap<>();
 
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
@@ -26,6 +26,22 @@ public class Resume implements Comparable<Resume> {
         this(UUID.randomUUID().toString(), fullName);
     }
 
+    public void addContact(ContactEnum kindOfContact, String contact) {
+        contacts.put(kindOfContact, contact);
+    }
+
+    public Map<ContactEnum, String> getContact() {
+        return contacts;
+    }
+
+    public void addSection (SectionEnum kindOfSection, Sections section){
+        sections.put(kindOfSection,section);
+    }
+
+    public Map<SectionEnum, Sections> getSections() {
+        return sections;
+    }
+
     public String getUuid() {
         return uuid;
     }
@@ -33,11 +49,6 @@ public class Resume implements Comparable<Resume> {
     public String getFullName() {
         return fullName;
     }
-
-/*    @Override
-    public String toString() {
-        return uuid;
-    }*/
 
     @Override
     public String toString() {
