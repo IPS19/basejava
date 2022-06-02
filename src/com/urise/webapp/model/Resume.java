@@ -1,6 +1,7 @@
 package com.urise.webapp.model;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -13,9 +14,9 @@ public class Resume implements Comparable<Resume> {
     private final String uuid;
     private final String fullName;
 
-    private final Map<ContactEnum, String> contacts = new HashMap<>();
+    private final Map<ContactEnum, String> contacts = new LinkedHashMap<>();
 
-    private final Map<SectionEnum, Sections> sections = new HashMap<>();
+    private final Map<SectionEnum, Sections> sections = new LinkedHashMap<>();
 
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
@@ -34,8 +35,8 @@ public class Resume implements Comparable<Resume> {
         return contacts;
     }
 
-    public void addSection (SectionEnum kindOfSection, Sections section){
-        sections.put(kindOfSection,section);
+    public void addSection(SectionEnum kindOfSection, Sections section) {
+        sections.put(kindOfSection, section);
     }
 
     public Map<SectionEnum, Sections> getSections() {
@@ -50,12 +51,13 @@ public class Resume implements Comparable<Resume> {
         return fullName;
     }
 
+
     @Override
     public String toString() {
-        return "Resume{" +
-                "uuid='" + uuid + '\'' +
-                ", fullName='" + fullName + '\'' +
-                '}';
+        return "" +
+                "uuid=" + uuid + "\n" +
+                "fullName: " + fullName + '\n';
+        //+contacts.keySet() +'\n' + sections;
     }
 
     @Override

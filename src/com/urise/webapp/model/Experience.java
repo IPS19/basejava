@@ -3,20 +3,40 @@ package com.urise.webapp.model;
 import java.time.YearMonth;
 
 public class Experience {
-    private final String title;
+    private final String nameOfInstitution; // организация(заведение)
     private final YearMonth dateFrom;
     private final YearMonth dateTo;
-    private final String nameOfInstitution;
-    private final String nameOfSpecialization;
-    private final String description;
+    private final String title; //
+    private String description = null;
 
-    public Experience(String title, YearMonth dateFrom, YearMonth dateTo, String nameOfInstitution,
-                      String nameOfSpecialization, String description) {
-        this.title = title;
+    public Experience(YearMonth dateFrom, YearMonth dateTo, String nameOfInstitution,
+                      String title, String description) {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.nameOfInstitution = nameOfInstitution;
-        this.nameOfSpecialization = nameOfSpecialization;
+        this.title = title;
         this.description = description;
+    }
+
+    public Experience(YearMonth dateFrom, YearMonth dateTo, String nameOfInstitution,
+                      String title) {
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.nameOfInstitution = nameOfInstitution;
+        this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        if (description == null)
+            return "c " + dateFrom +
+                    " по " + dateTo + '\n' +
+                    nameOfInstitution + '\n' +
+                    title + '\n';
+        return "c " + dateFrom +
+                " по " + dateTo + '\n' +
+                nameOfInstitution + '\n' +
+                title + '\n' +
+                description + '\n';
     }
 }
