@@ -1,8 +1,9 @@
 package com.urise.webapp.model;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+
+import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -14,35 +15,18 @@ public class Resume implements Comparable<Resume> {
     private final String uuid;
     private final String fullName;
 
-    private final Map<ContactEnum, String> contacts = new LinkedHashMap<>();
+    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
-    private final Map<SectionEnum, Sections> sections = new LinkedHashMap<>();
-
-    public Resume(String uuid, String fullName) {
-        this.uuid = uuid;
-        this.fullName = fullName;
-    }
+    private final Map<SectionType, Sections> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
     }
 
-    public void addContact(ContactEnum kindOfContact, String contact) {
-        contacts.put(kindOfContact, contact);
+    public Resume(String uuid, String fullName) {
+        this.uuid = uuid;
+        this.fullName = fullName;
     }
-
-    public Map<ContactEnum, String> getContact() {
-        return contacts;
-    }
-
-    public void addSection(SectionEnum kindOfSection, Sections section) {
-        sections.put(kindOfSection, section);
-    }
-
-    public Map<SectionEnum, Sections> getSections() {
-        return sections;
-    }
-
     public String getUuid() {
         return uuid;
     }
@@ -51,13 +35,27 @@ public class Resume implements Comparable<Resume> {
         return fullName;
     }
 
+    public void addContact(ContactType kindOfContact, String contact) {
+        contacts.put(kindOfContact, contact);
+    }
+
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public void addSection(SectionType kindOfSection, Sections section) {
+        sections.put(kindOfSection, section);
+    }
+
+    public Map<SectionType, Sections> getSections() {
+        return sections;
+    }
 
     @Override
     public String toString() {
         return "" +
                 "uuid=" + uuid + "\n" +
                 "fullName: " + fullName + '\n';
-        //+contacts.keySet() +'\n' + sections;
     }
 
     @Override
@@ -65,12 +63,12 @@ public class Resume implements Comparable<Resume> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Resume resume = (Resume) o;
-        return uuid.equals(resume.uuid);
+        return Objects.equals(uuid, resume.uuid) && Objects.equals(fullName, resume.fullName) && Objects.equals(contacts, resume.contacts) && Objects.equals(sections, resume.sections);
     }
 
     @Override
     public int hashCode() {
-        return uuid.hashCode();
+        return Objects.hash(uuid, fullName, contacts, sections);
     }
 
     @Override

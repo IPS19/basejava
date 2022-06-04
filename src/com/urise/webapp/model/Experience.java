@@ -7,7 +7,7 @@ public class Experience {
     private final YearMonth dateFrom;
     private final YearMonth dateTo;
     private final String title; //
-    private String description = null;
+    private String description;
 
     public Experience(YearMonth dateFrom, YearMonth dateTo, String nameOfInstitution,
                       String title, String description) {
@@ -29,14 +29,7 @@ public class Experience {
     @Override
     public String toString() {
         if (description == null)
-            return "c " + dateFrom +
-                    " по " + dateTo + '\n' +
-                    nameOfInstitution + '\n' +
-                    title + '\n';
-        return "c " + dateFrom +
-                " по " + dateTo + '\n' +
-                nameOfInstitution + '\n' +
-                title + '\n' +
-                description + '\n';
+            return "c " + dateFrom + " по " + dateTo + '\n' + nameOfInstitution + '\n' + title + '\n';
+        return "c " + dateFrom + " по " + dateTo + '\n' + nameOfInstitution + '\n' + title + '\n' + description + '\n';
     }
 }

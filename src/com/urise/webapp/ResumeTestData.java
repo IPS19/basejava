@@ -9,21 +9,21 @@ public class ResumeTestData {
 
     public static void main(String[] args) {
         Resume gKislin = new Resume("Григорий Кислин");
-        gKislin.addContact(ContactEnum.PHONE, "+7(921) 855-0482");
-        gKislin.addContact(ContactEnum.SKYPE, "grigory.kislin");
-        gKislin.addContact(ContactEnum.EMAIL, "gkislin@yandex.ru");
-        gKislin.addContact(ContactEnum.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-        gKislin.addContact(ContactEnum.GITHUB, "https://github.com/gkislin");
-        gKislin.addContact(ContactEnum.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
-        gKislin.addContact(ContactEnum.HOMEPAGE, "http://gkislin.ru/");
+        gKislin.addContact(ContactType.PHONE, "+7(921) 855-0482");
+        gKislin.addContact(ContactType.SKYPE, "grigory.kislin");
+        gKislin.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
+        gKislin.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        gKislin.addContact(ContactType.GITHUB, "https://github.com/gkislin");
+        gKislin.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
+        gKislin.addContact(ContactType.HOMEPAGE, "http://gkislin.ru/");
 
         TextSection objective = new TextSection();
         objective.setDescription("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям");
-        gKislin.addSection(SectionEnum.OBJECTIVE, objective);
+        gKislin.addSection(SectionType.OBJECTIVE, objective);
 
         TextSection personal = new TextSection();
         personal.setDescription("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.");
-        gKislin.addSection(SectionEnum.PERSONAL, personal);
+        gKislin.addSection(SectionType.PERSONAL, personal);
 
         ListSection achievement = new ListSection();
         achievement.addElement("Организация команды и успешная реализация Java проектов для сторонних заказчиков: " +
@@ -45,7 +45,7 @@ public class ResumeTestData {
                 " через систему мониторинга Nagios. Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Jython/ Django).");
         achievement.addElement("Реализация протоколов по приему платежей всех основных платежных системы России " +
                 "(Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
-        gKislin.addSection(SectionEnum.ACHIEVEMENT, achievement);
+        gKislin.addSection(SectionType.ACHIEVEMENT, achievement);
 
         ListSection qualifications = new ListSection();
         qualifications.addElement("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
@@ -67,13 +67,13 @@ public class ResumeTestData {
         qualifications.addElement("Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, " +
                 "архитектурных шаблонов, UML, функционального программирования");
         qualifications.addElement("Родной русский, английский \"upper intermediate\"");
-        gKislin.addSection(SectionEnum.QUALIFICATIONS, qualifications);
+        gKislin.addSection(SectionType.QUALIFICATIONS, qualifications);
 
         Experience school = new Experience(YearMonth.of(1984, 9), YearMonth.of(1987, 6), "Заочная физико-техническая школа при МФТИ",
                 "Закончил с отличием");
         Experience itmo = new Experience(YearMonth.of(1987, 9), YearMonth.of(1993, 7), "Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
                 "Инженер (программист Fortran, C)");
-        Experience itmo2 = new Experience(YearMonth.of(1993, 9), YearMonth.of(1996, 7), "Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики,", "\n" +
+        Experience itmo2 = new Experience(YearMonth.of(1993, 9), YearMonth.of(1996, 7), "Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики,",
                 "Аспирантура (программист С, С++)");
         Experience alcatelEdu = new Experience(YearMonth.of(1997, 9), YearMonth.of(1998, 3), "Alcatel",
                 "6 месяцев обучения цифровым телефонным сетям (Москва)");
@@ -92,7 +92,7 @@ public class ResumeTestData {
         education.addElement(simensEdu);
         education.addElement(luxoftEdu);
         education.addElement(coursera);
-        gKislin.addSection(SectionEnum.EDUCATION, education);
+        gKislin.addSection(SectionType.EDUCATION, education);
 
         Experience alcatel = new Experience(YearMonth.of(1997, 9), YearMonth.of(2005, 1), "Alcatel",
                 "Инженер по аппаратному и программному тестированию", "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).");
@@ -119,18 +119,18 @@ public class ResumeTestData {
         workExperience.addElement(rit);
         workExperience.addElement(wrike);
         workExperience.addElement(jop);
-        gKislin.addSection(SectionEnum.EXPERIENCE, workExperience);
+        gKislin.addSection(SectionType.EXPERIENCE, workExperience);
 
         System.out.println(gKislin);
 
-        Map<ContactEnum, String> contacts = gKislin.getContact();
-        for (Map.Entry entry : contacts.entrySet()) {
+        Map<ContactType, String> contacts = gKislin.getContacts();
+        for (Map.Entry <ContactType, String> entry : contacts.entrySet()) {
             System.out.println(entry.getKey() + ": ");
             System.out.println(entry.getValue());
         }
 
-        Map<SectionEnum, Sections> sections = gKislin.getSections();
-        for (Map.Entry entry : sections.entrySet()) {
+        Map<SectionType, Sections> sections = gKislin.getSections();
+        for (Map.Entry <SectionType, Sections> entry : sections.entrySet()) {
             System.out.println(entry.getKey() + ": ");
             System.out.println(entry.getValue());
         }
