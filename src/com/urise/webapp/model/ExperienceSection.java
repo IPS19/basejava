@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExperienceSection implements Sections {
-    private List<Experience> list = new ArrayList<>();
+    private final List<Experience> list = new ArrayList<>();
 
     public List<Experience> getList() {
         return list;
