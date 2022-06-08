@@ -20,8 +20,8 @@ public class ListSection implements Sections {
 
     @Override
     public String toString() {
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
+        for (String s : list) {
+            System.out.println(s);
         }
         return "";
     }

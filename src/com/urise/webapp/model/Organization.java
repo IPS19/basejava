@@ -4,15 +4,14 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Experience {
+public class Organization {
 
-
-    private final String nameOfInstitution; // организация(заведение)
     private final List<PeriodInInstitution> institutionPeriod = new ArrayList<>();
+    private final Link homePage;
 
-    public Experience(String nameOfInstitution, PeriodInInstitution institution) {
-        this.nameOfInstitution = nameOfInstitution;
+    public Organization(String nameOfInstitution,String url, PeriodInInstitution institution) {
         institutionPeriod.add(institution);
+        this.homePage = new Link(nameOfInstitution, url);
     }
 
     public void addInstitution(PeriodInInstitution institution) {
@@ -48,16 +47,10 @@ public class Experience {
 
     @Override
     public String toString() {
-        System.out.println(nameOfInstitution);
-        for (int i = 0; i < institutionPeriod.size(); i++) {
-            System.out.print(institutionPeriod.get(i));
+        System.out.println(homePage.getName());
+        for (PeriodInInstitution periodInInstitution : institutionPeriod) {
+            System.out.print(periodInInstitution);
         }
         return "";
     }
-    /*    @Override
-    public String toString() {
-        if (description == null)
-            return "c " + dateFrom + " по " + dateTo + '\n' + nameOfInstitution + '\n' + title + '\n';
-        return "c " + dateFrom + " по " + dateTo + '\n' + nameOfInstitution + '\n' + title + '\n' + description + '\n';
-    }*/
 }
