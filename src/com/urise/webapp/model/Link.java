@@ -38,3 +38,4 @@ public class Link {
         return Objects.hash(name, url);
     }
 }
+

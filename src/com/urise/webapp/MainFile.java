@@ -3,7 +3,6 @@ package com.urise.webapp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class MainFile {
     public static void main(String[] args) throws IOException {
@@ -16,7 +15,7 @@ public class MainFile {
             throw new RuntimeException("Error", e);
         }
 
-        File dir = new File("C:\\Java\\basejava");
+        File dir = new File(".\\");
         System.out.println(dir.isDirectory());
         String[] list = dir.list();
         if (list != null) {
@@ -30,7 +29,7 @@ public class MainFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        listFiles("C:\\Java\\basejava\\src");
+        listFiles(".\\src");
 
     }
 

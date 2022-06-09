@@ -26,23 +26,21 @@ public abstract class AbstractArrayStorage extends AbstractStorage <Integer>{
 
     @Override
     protected boolean isExist(Integer index) {
-        return (int) index >= 0;
+        return index >= 0;
     }
 
     public final Resume getFromStorage(Integer index) {
         return storage[ index];
     }
 
-    public final void deleteFromStorage(Integer indexArg) {
-        int index = indexArg;
+    public final void deleteFromStorage(Integer index) {
         if (index == size - 1) {
-            size--;
             storage[index] = null;
         } else {
-            size--;
             System.arraycopy(storage, index + 1, storage, index, (size - index));
             storage[size] = null;
         }
+        size--;
     }
 
     public final void updateStorage(Integer key, Resume r) {

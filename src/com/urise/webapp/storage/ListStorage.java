@@ -20,7 +20,7 @@ public class ListStorage extends AbstractStorage<Integer> {
 
     @Override
     protected boolean isExist(Integer index) {
-        return (int) index >= 0;
+            return index >= 0;
     }
 
     @Override
