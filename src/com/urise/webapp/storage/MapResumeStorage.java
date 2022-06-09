@@ -17,13 +17,13 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
     }
 
     @Override
-    protected boolean isExist(Resume searchKey) {
-        return searchKey != null;
+    protected boolean isExist(Resume resume) {
+        return resume != null;
     }
 
     @Override
-    public Resume getFromStorage(Resume searchKey) {
-        return searchKey;
+    public Resume getFromStorage(Resume resume) {
+        return resume;
     }
 
     @Override
@@ -32,14 +32,13 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
     }
 
     @Override
-    public void updateStorage(Resume searchKey, Resume r) {
+    public void updateStorage(Resume resume, Resume r) {
         storage.put(r.getUuid(), r);
     }
 
     @Override
-    public void deleteFromStorage(Resume searchKey) {
-        Resume key = searchKey;
-        storage.remove(key.getUuid());
+    public void deleteFromStorage(Resume resume) {
+        storage.remove(resume.getUuid());
     }
 
     @Override

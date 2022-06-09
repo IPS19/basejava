@@ -43,8 +43,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage <Integer>{
         size--;
     }
 
-    public final void updateStorage(Integer key, Resume r) {
-        storage[key] = r;
+    public final void updateStorage(Integer index, Resume r) {
+        storage[index] = r;
     }
 
     public final void clear() {

@@ -42,7 +42,7 @@ public class MainFile {
                 if (files[i].isDirectory()) {
                     String filePath = files[i].getCanonicalPath();
                     System.out.println();
-                    System.out.println(list[i]);
+                    //System.out.println(list[i]);
                     listFiles(filePath);
                 } else System.out.println(list[i]);
             }
