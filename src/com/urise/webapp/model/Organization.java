@@ -1,38 +1,48 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Organization {
+import static com.urise.webapp.util.DateUtil.NOW;
 
-    private final List<Expereince> institutionPeriod = new ArrayList<>();
+public class Organization implements Serializable {
+
+    private final List<Experience> institutionPeriod = new ArrayList<>();
     private final Link homePage;
 
-    public Organization(String nameOfInstitution,String url, Expereince institution) {
+    public Organization(String nameOfInstitution,String url, Experience institution) {
         institutionPeriod.add(institution);
         this.homePage = new Link(nameOfInstitution, url);
     }
 
-    public void addInstitution(Expereince institution) {
+    public void addInstitution(Experience institution) {
         institutionPeriod.add(institution);
     }
 
-    public static class Expereince {
+    public static class Experience implements Serializable {
         private final YearMonth dateFrom;
         private final YearMonth dateTo;
         private final String title;
         String description;
 
-        public Expereince(YearMonth dateFrom, YearMonth dateTo, String title) {
+        public Experience(YearMonth dateFrom, YearMonth dateTo, String title) {
             this.dateFrom = dateFrom;
             this.dateTo = dateTo;
             this.title = title;
         }
 
-        public Expereince(YearMonth dateFrom, YearMonth dateTo, String title, String description) {
+        public Experience(YearMonth dateFrom, YearMonth dateTo, String title, String description) {
             this.dateFrom = dateFrom;
             this.dateTo = dateTo;
+            this.title = title;
+            this.description = description;
+        }
+
+        public Experience(YearMonth dateFrom, String title, String description) {
+            this.dateFrom = dateFrom;
+            this.dateTo = NOW;
             this.title = title;
             this.description = description;
         }
@@ -50,7 +60,7 @@ public class Organization {
         System.out.println(homePage.getName());
         String url = homePage.getUrl();
         if(url != null) System.out.println(url);
-        for (Expereince periodInInstitution : institutionPeriod) {
+        for (Experience periodInInstitution : institutionPeriod) {
             System.out.print(periodInInstitution);
         }
         return "";

@@ -1,6 +1,8 @@
 package com.urise.webapp.model;
 
-public class TextSection implements Sections {
+import java.io.Serializable;
+
+public class TextSection implements Sections, Serializable {
     private String description;
 
     public String getDescription() {

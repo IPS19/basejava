@@ -1,9 +1,10 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListSection implements Sections {
+public class ListSection implements Sections, Serializable {
     private List<String> list = new ArrayList<>();
 
     public void setList(List<String> list) {

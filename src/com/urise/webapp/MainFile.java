@@ -5,8 +5,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class MainFile {
+
+    //static String offset = "";
+
     public static void main(String[] args) throws IOException {
         String filePath = ".\\.gitignore";
+
 
         File file = new File(filePath);
         try {
@@ -29,22 +33,20 @@ public class MainFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        listFiles(".\\src");
-
+        listFiles(dir);
     }
 
-    static void listFiles(String path) throws IOException {
-        File file = new File(path);
-        File[] files = file.listFiles();
-        String[] list = file.list();
-        if (files != null && list != null) {
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isDirectory()) {
-                    String filePath = files[i].getCanonicalPath();
-                    System.out.println();
-                    //System.out.println(list[i]);
-                    listFiles(filePath);
-                } else System.out.println(list[i]);
+    public static void listFiles(File dir) {
+        File[] files = dir.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    System.out.println("File: " + file.getName());
+                } else if (file.isDirectory()) {
+                    System.out.println("Directory: " + file.getName());
+                    listFiles(file);
+                }
             }
         }
     }

@@ -1,9 +1,10 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExperienceSection implements Sections {
+public class ExperienceSection implements Sections, Serializable {
     private final List<Organization> list = new ArrayList<>();
 
     public List<Organization> getList() {
