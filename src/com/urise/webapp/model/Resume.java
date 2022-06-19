@@ -14,8 +14,6 @@ import java.util.UUID;
 public class Resume implements Comparable<Resume>, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-
-    // 2 урок 10:00
     // Unique identifier
     private final String uuid;
     private final String fullName;
