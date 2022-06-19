@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListSection implements Sections, Serializable {
+    private static final long serialVersionUID = 1L;
+
     private List<String> list = new ArrayList<>();
 
     public void setList(List<String> list) {

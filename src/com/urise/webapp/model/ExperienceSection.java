@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExperienceSection implements Sections, Serializable {
+    private static final long serialVersionUID = 1L;
     private final List<Organization> list = new ArrayList<>();
 
     public List<Organization> getList() {

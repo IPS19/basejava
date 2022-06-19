@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File(".\\storage\\");
+    protected static final File STORAGE_DIR = new File("./storage");
 
     protected Storage storage;
 
@@ -57,7 +57,6 @@ public abstract class AbstractStorageTest {
     @Test
     public void update() {
         Resume r = ResumeTestData.createResume("uuid2", "name2");
-        ;
         storage.update(r);
         assertSame(r, storage.get(UUID_2));
     }

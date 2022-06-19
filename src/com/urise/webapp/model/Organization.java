@@ -8,6 +8,7 @@ import java.util.List;
 import static com.urise.webapp.util.DateUtil.NOW;
 
 public class Organization implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private final List<Experience> institutionPeriod = new ArrayList<>();
     private final Link homePage;

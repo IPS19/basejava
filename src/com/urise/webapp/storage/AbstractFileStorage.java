@@ -47,7 +47,7 @@ public abstract class AbstractFileStorage extends AbstractStorage <File> {
 
     @Override
     public void saveToStorage(Resume r) {
-        File file = new File(".\\storage\\");
+        File file = new File("./storage");
         try {
             file.createNewFile();
         } catch (IOException e) {
