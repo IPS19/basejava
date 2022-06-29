@@ -29,7 +29,7 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    public void saveToStorage(Resume r) {
+    public void saveToStorage(Resume r, Integer index) {
         storage.add(r);
     }
 

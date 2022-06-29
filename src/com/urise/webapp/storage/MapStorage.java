@@ -27,8 +27,8 @@ public class MapStorage extends AbstractStorage<String> {
     }
 
     @Override
-    public void saveToStorage(Resume r) {
-        storage.put(r.getUuid(), r);
+    public void saveToStorage(Resume r, String uuid) {
+        storage.put(uuid, r);
     }
 
     @Override

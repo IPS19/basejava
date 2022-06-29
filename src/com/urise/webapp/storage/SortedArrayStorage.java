@@ -13,7 +13,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void addToArray(Resume r) {
+    public void addToArray(Resume r, Integer searchKey) {
         int index = searchKey(r.getUuid());
         int insertIndex = -index - 1;
         if (insertIndex < storage.length - 1) {

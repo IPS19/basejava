@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class PathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
 
     private StreamSerializer streamSerializer;
@@ -58,8 +58,7 @@ public abstract class PathStorage extends AbstractStorage<Path> {
     }
 
     @Override
-    public void saveToStorage(Resume r) {
-        Path path = Paths.get(".\\storage");
+    public void saveToStorage(Resume r, Path path) {
         try {
             Files.createFile(path);
         } catch (IOException e) {
@@ -77,13 +76,12 @@ public abstract class PathStorage extends AbstractStorage<Path> {
         }
     }
 
-
     @Override
     public void deleteFromStorage(Path path) {
         try{
             Files.delete(path);
         } catch (IOException e) {
-            throw new StorageException("Path deelete error", getFileName(path),e);
+            throw new StorageException("Path delete error", getFileName(path),e);
         }
 
     }
@@ -92,6 +90,7 @@ public abstract class PathStorage extends AbstractStorage<Path> {
     public List<Resume> getAsList() {
         return getFilesList().map(this::getFromStorage).collect(Collectors.toList());
     }
+
     private String getFileName(Path path){
         return path.getFileName().toString();
     }

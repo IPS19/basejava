@@ -28,7 +28,7 @@ public class FileStorage extends AbstractStorage <File> {
 
     @Override
     public void clear() {
-        File[] files = directory.listFiles();
+        File[] files = getFileArray();
         if (files != null) {
             for (File file : files) {
                 deleteFromStorage(file);
@@ -38,10 +38,9 @@ public class FileStorage extends AbstractStorage <File> {
 
     @Override
     public int size() {
-        String[] list = directory.list();
+        File[] list = getFileArray();
         if (list == null){
-            System.out.println("empty");
-            return -1;
+            throw new StorageException("Storage is empty");
         }
         return list.length;
     }
@@ -75,14 +74,13 @@ public class FileStorage extends AbstractStorage <File> {
     }
 
     @Override
-    public void saveToStorage(Resume r) {
-        File file = new File(".\\storage");
+    public void saveToStorage(Resume r, File file) {
         try {
             file.createNewFile();
         } catch (IOException e) {
             throw new StorageException("Couldn't create file " + file.getAbsolutePath(), file.getName(), e);
         }
-        updateStorage(file,r);
+        updateStorage(file, r);
     }
 
     @Override
@@ -94,7 +92,7 @@ public class FileStorage extends AbstractStorage <File> {
 
     @Override
     public List<Resume> getAsList() {
-        File[] files = directory.listFiles();
+        File[] files = getFileArray();
         if (files == null) {
             throw new StorageException("Directory read error");
         }
@@ -103,5 +101,9 @@ public class FileStorage extends AbstractStorage <File> {
             list.add(getFromStorage(file));
         }
         return list;
+    }
+
+    public File[] getFileArray() {
+        return directory.listFiles();
     }
 }

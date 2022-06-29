@@ -14,13 +14,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage <Integer>{
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
 
-    protected abstract void addToArray(Resume r);
+    protected abstract void addToArray(Resume r, Integer index);
 
-    public final void saveToStorage(Resume r) {
+    public final void saveToStorage(Resume r, Integer index) {
         if (size == storage.length) {
             throw new StorageException("storage overflow", r.getUuid());
         }
-        addToArray(r);
+        addToArray(r, index);
         size++;
     }
 
