@@ -68,6 +68,19 @@ public class Organization implements Serializable {
                 return "c " + dateFrom + " по " + dateTo + '\n' + title + '\n';
             return "c " + dateFrom + " по " + dateTo + '\n' + title + '\n' + description + '\n';
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Experience that = (Experience) o;
+            return dateFrom.equals(that.dateFrom) && dateTo.equals(that.dateTo) && title.equals(that.title) && Objects.equals(description, that.description);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(dateFrom, dateTo, title, description);
+        }
     }
 
     @Override
