@@ -4,7 +4,9 @@ import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.serializer.StreamSerializer;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -64,26 +66,25 @@ public class PathStorage extends AbstractStorage<Path> {
         } catch (IOException e) {
             throw new StorageException("Could not create path" + path, getFileName(path), e);
         }
-
+        updateStorage(path, r);
     }
 
     @Override
     public Resume getFromStorage(Path path) {
-        try{
+        try {
             return streamSerializer.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("Path read error",getFileName(path),e);
+            throw new StorageException("Path read error", getFileName(path), e);
         }
     }
 
     @Override
     public void deleteFromStorage(Path path) {
-        try{
+        try {
             Files.delete(path);
         } catch (IOException e) {
-            throw new StorageException("Path delete error", getFileName(path),e);
+            throw new StorageException("Path delete error", getFileName(path), e);
         }
-
     }
 
     @Override
@@ -91,7 +92,7 @@ public class PathStorage extends AbstractStorage<Path> {
         return getFilesList().map(this::getFromStorage).collect(Collectors.toList());
     }
 
-    private String getFileName(Path path){
+    private String getFileName(Path path) {
         return path.getFileName().toString();
     }
 

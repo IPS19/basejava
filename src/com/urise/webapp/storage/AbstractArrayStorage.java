@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage extends AbstractStorage <Integer>{
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10_000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
@@ -30,7 +30,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage <Integer>{
     }
 
     public final Resume getFromStorage(Integer index) {
-        return storage[ index];
+        return storage[index];
     }
 
     public final void deleteFromStorage(Integer index) {

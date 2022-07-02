@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
     protected static final File STORAGE_DIR = new File(".\\storage");
@@ -24,10 +23,10 @@ public abstract class AbstractStorageTest {
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
 
-    private static final Resume RESUME1 = ResumeTestData.createResume(UUID_1,"name1");
-    private static final Resume RESUME2 = ResumeTestData.createResume(UUID_2,"name2");
-    private static final Resume RESUME3 = ResumeTestData.createResume(UUID_3,"name3");
-    private static final Resume RESUME4 = ResumeTestData.createResume(UUID_4,"name4");
+    private static final Resume RESUME1 = ResumeTestData.createResume(UUID_1, "name1");
+    private static final Resume RESUME2 = ResumeTestData.createResume(UUID_2, "name2");
+    private static final Resume RESUME3 = ResumeTestData.createResume(UUID_3, "name3");
+    private static final Resume RESUME4 = ResumeTestData.createResume(UUID_4, "name4");
 
     private static final Resume DUMMY = new Resume("dummy");
 
@@ -58,7 +57,7 @@ public abstract class AbstractStorageTest {
     public void update() {
         Resume r = ResumeTestData.createResume("uuid2", "name2");
         storage.update(r);
-        assertSame(r, storage.get(UUID_2));
+        assertEquals(r, storage.get(UUID_2));
     }
 
     @Test(expected = NotExistStorageException.class)

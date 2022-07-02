@@ -14,7 +14,7 @@ public class MainReflection {
         field.setAccessible(true);
         System.out.println(field.getName());
         System.out.println(field.get(r));
-        field.set(r,"new_uuid");
+        field.set(r, "new_uuid");
 
         Method method = resumeClass.getMethod("toString");
         Object result = method.invoke(r);

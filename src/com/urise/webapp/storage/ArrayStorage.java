@@ -11,7 +11,7 @@ import java.util.List;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void addToArray(Resume r,Integer index) {
+    public void addToArray(Resume r, Integer index) {
         storage[size] = r;
     }
 

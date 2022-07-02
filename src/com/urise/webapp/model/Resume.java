@@ -29,6 +29,7 @@ public class Resume implements Comparable<Resume>, Serializable {
         this.uuid = uuid;
         this.fullName = fullName;
     }
+
     public String getUuid() {
         return uuid;
     }

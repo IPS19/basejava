@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.urise.webapp.util.DateUtil.NOW;
 
@@ -13,13 +14,26 @@ public class Organization implements Serializable {
     private final List<Experience> institutionPeriod = new ArrayList<>();
     private final Link homePage;
 
-    public Organization(String nameOfInstitution,String url, Experience institution) {
+    public Organization(String nameOfInstitution, String url, Experience institution) {
         institutionPeriod.add(institution);
         this.homePage = new Link(nameOfInstitution, url);
     }
 
     public void addInstitution(Experience institution) {
         institutionPeriod.add(institution);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Organization that = (Organization) o;
+        return institutionPeriod.equals(that.institutionPeriod) && Objects.equals(homePage, that.homePage);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(institutionPeriod, homePage);
     }
 
     public static class Experience implements Serializable {
@@ -60,7 +74,7 @@ public class Organization implements Serializable {
     public String toString() {
         System.out.println(homePage.getName());
         String url = homePage.getUrl();
-        if(url != null) System.out.println(url);
+        if (url != null) System.out.println(url);
         for (Experience periodInInstitution : institutionPeriod) {
             System.out.print(periodInInstitution);
         }

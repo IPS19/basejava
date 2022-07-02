@@ -2,6 +2,7 @@ package com.urise.webapp.storage.serializer;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+
 import java.io.*;
 
 public class ObjectStreamStorage implements StreamSerializer {
@@ -22,4 +23,3 @@ public class ObjectStreamStorage implements StreamSerializer {
         }
     }
 }
-

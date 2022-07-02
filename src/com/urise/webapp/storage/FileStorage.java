@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class FileStorage extends AbstractStorage <File> {
+public class FileStorage extends AbstractStorage<File> {
 
     private final File directory;
     private final StreamSerializer streamSerializer;
@@ -39,7 +39,7 @@ public class FileStorage extends AbstractStorage <File> {
     @Override
     public int size() {
         File[] list = getFileArray();
-        if (list == null){
+        if (list == null) {
             throw new StorageException("Storage is empty");
         }
         return list.length;
@@ -104,6 +104,11 @@ public class FileStorage extends AbstractStorage <File> {
     }
 
     public File[] getFileArray() {
-        return directory.listFiles();
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Empty");
+        }
+        return files;
     }
+
 }

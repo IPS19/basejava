@@ -18,7 +18,7 @@ public class TestSingleton {
     public static void main(String[] args) {
         TestSingleton.getInstance().toString();
         Singleton instance = Singleton.valueOf("INSTANCE");
-        for(SectionType type: SectionType.values()){
+        for (SectionType type : SectionType.values()) {
             System.out.println(type.getTitle());
         }
     }
