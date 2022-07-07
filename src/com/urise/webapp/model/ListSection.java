@@ -1,14 +1,20 @@
 package com.urise.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ListSection implements Sections, Serializable {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class ListSection  extends Sections implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private List<String> list = new ArrayList<>();
+
+    public ListSection() {
+    }
 
     public void setList(List<String> list) {
         this.list = list;
@@ -40,6 +46,6 @@ public class ListSection implements Sections, Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(list);
+        return list.hashCode();
     }
 }

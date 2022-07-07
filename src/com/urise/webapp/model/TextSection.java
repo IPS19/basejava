@@ -1,12 +1,17 @@
 package com.urise.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
-import java.util.Objects;
 
-public class TextSection implements Sections, Serializable {
-    private static final long serialVersionUID = 1L;
+@XmlAccessorType(XmlAccessType.FIELD)
+public class TextSection  extends Sections implements Serializable {
+    private static long serialVersionUID = 1L;
 
     private String description;
+
+    public TextSection() {
+    }
 
     public String getDescription() {
         return description;
@@ -26,11 +31,11 @@ public class TextSection implements Sections, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TextSection that = (TextSection) o;
-        return Objects.equals(description, that.description);
+        return description.equals(that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(description);
+        return description.hashCode();
     }
 }

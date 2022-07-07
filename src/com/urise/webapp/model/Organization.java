@@ -1,5 +1,10 @@
 package com.urise.webapp.model;
 
+import com.urise.webapp.util.LocalDateAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -8,15 +13,19 @@ import java.util.Objects;
 
 import static com.urise.webapp.util.DateUtil.NOW;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final List<Experience> institutionPeriod = new ArrayList<>();
-    private final Link homePage;
+    private Link homePage;
 
     public Organization(String nameOfInstitution, String url, Experience institution) {
         institutionPeriod.add(institution);
         this.homePage = new Link(nameOfInstitution, url);
+    }
+
+    public Organization() {
     }
 
     public void addInstitution(Experience institution) {
@@ -28,7 +37,8 @@ public class Organization implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
-        return institutionPeriod.equals(that.institutionPeriod) && Objects.equals(homePage, that.homePage);
+        return institutionPeriod.equals(that.institutionPeriod) &&
+                Objects.equals(homePage, that.homePage);
     }
 
     @Override
@@ -36,11 +46,17 @@ public class Organization implements Serializable {
         return Objects.hash(institutionPeriod, homePage);
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Experience implements Serializable {
-        private final YearMonth dateFrom;
-        private final YearMonth dateTo;
-        private final String title;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private YearMonth dateFrom;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private YearMonth dateTo;
+        private String title;
         String description;
+
+        public Experience() {
+        }
 
         public Experience(YearMonth dateFrom, YearMonth dateTo, String title) {
             this.dateFrom = dateFrom;

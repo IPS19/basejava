@@ -1,4 +1,9 @@
 package com.urise.webapp.model;
 
-public interface Sections {
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import java.io.Serializable;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Sections implements Serializable {
 }
