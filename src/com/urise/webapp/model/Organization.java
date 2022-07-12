@@ -1,6 +1,6 @@
 package com.urise.webapp.model;
 
-import com.urise.webapp.util.LocalDateAdapter;
+import com.urise.webapp.util.YearMonthAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -48,9 +48,9 @@ public class Organization implements Serializable {
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Experience implements Serializable {
-        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        @XmlJavaTypeAdapter(YearMonthAdapter.class)
         private YearMonth dateFrom;
-        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        @XmlJavaTypeAdapter(YearMonthAdapter.class)
         private YearMonth dateTo;
         private String title;
         String description;
