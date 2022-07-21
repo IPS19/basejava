@@ -3,6 +3,7 @@ package com.urise.webapp.storage.serializer;
 import com.urise.webapp.model.*;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ public class DataStreamSrializer implements StreamSerializer {
                 dos.writeUTF(entry.getValue());
             }
             Map<SectionType, Sections> sections = r.getSections();
+            dos.writeInt(sections.size());
             for (Map.Entry<SectionType, Sections> entry : sections.entrySet()) {
                 SectionType section = entry.getKey();
                 switch (section) {
@@ -64,10 +66,45 @@ public class DataStreamSrializer implements StreamSerializer {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
+            int sizeContacts = dis.readInt();
+            for (int i = 0; i < sizeContacts; i++) {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
+            int sizeSections = dis.readInt();
+            for (int i = 0; i < sizeSections; i++) {
+                String sectionType = dis.readUTF();
+                switch (sectionType) {
+                    case "PERSONAL": {
+                        TextSection personal = new TextSection();
+                        personal.setDescription(dis.readUTF());
+                        resume.addSection(SectionType.PERSONAL, personal);
+                    }
+                    case "OBJECTIVE": {
+                        TextSection objective = new TextSection();
+                        objective.setDescription(dis.readUTF());
+                        resume.addSection(SectionType.OBJECTIVE, objective);
+                    }
+                    case "ACHIEVEMENT": {
+                        int achievementSize = dis.readInt();
+                        ListSection achievement = new ListSection();
+                        for (int j = 0; j < achievementSize; j++) {
+                            achievement.addElement(dis.readUTF());
+                        }
+                        resume.addSection(SectionType.OBJECTIVE, achievement);
+                    }
+                    case "QUALIFICATIONS": {
+                        int qualificationsSize = dis.readInt();
+                        ListSection qualifications = new ListSection();
+                        for (int j = 0; j < qualificationsSize; j++) {
+                            qualifications.addElement(dis.readUTF());
+                        }
+                        resume.addSection(SectionType.OBJECTIVE, qualifications);
+                    }
+
+
+                }
+            }
+
             // TODO implements sections
             return resume;
         }
