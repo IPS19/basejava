@@ -104,4 +104,3 @@ public class PathStorage extends AbstractStorage<Path> {
         }
     }
 }
-

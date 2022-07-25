@@ -22,38 +22,26 @@ public class DataStreamSrializer implements StreamSerializer {
             Map<SectionType, Sections> sections = r.getSections();
             dos.writeInt(sections.size());
             for (Map.Entry<SectionType, Sections> entry : sections.entrySet()) {
-                SectionType section = entry.getKey();
-                switch (section) {
-                    case PERSONAL -> {
-                        dos.writeUTF("PERSONAL");
-                        dos.writeUTF(entry.getValue().toString());
-                    }
-                    case OBJECTIVE -> {
-                        dos.writeUTF("OBJECTIVE");
-                        dos.writeUTF(entry.getValue().toString());
-                    }
-                    case ACHIEVEMENT -> {
-                        dos.writeUTF("ACHIEVEMENT");
-                        List<String> achievement = (List<String>) entry.getValue();
-                        dos.writeInt(achievement.size());
-                        for (String element : achievement) {
-                            dos.writeUTF(element);
-                        }
-                    }
-                    case QUALIFICATIONS -> {
-                        dos.writeUTF("QUALIFICATIONS");
+                SectionType type = entry.getKey();
+                Sections section = entry.getValue();
+                dos.writeUTF(type.name());
+                switch (type) {
+                    case PERSONAL :
+                    case OBJECTIVE :
+                        dos.writeUTF(((TextSection) section).getDescription());
+                    break;
+                    case ACHIEVEMENT :
+                    case QUALIFICATIONS : {
                         List<String> qualifications = (List<String>) entry.getValue();
                         dos.writeInt(qualifications.size());
                         for (String element : qualifications) {
                             dos.writeUTF(element);
                         }
                     }
-                    case EDUCATION -> {
-                        dos.writeUTF("QUALIFICATIONS");
+                    case EDUCATION : {
 
                     }
                 }
-
             }
 
             // TODO implements sections
@@ -101,10 +89,8 @@ public class DataStreamSrializer implements StreamSerializer {
                         resume.addSection(SectionType.OBJECTIVE, qualifications);
                     }
 
-
                 }
             }
-
             // TODO implements sections
             return resume;
         }
