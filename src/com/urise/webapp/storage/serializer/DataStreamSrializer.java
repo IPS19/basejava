@@ -3,7 +3,6 @@ package com.urise.webapp.storage.serializer;
 import com.urise.webapp.model.*;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,20 +25,31 @@ public class DataStreamSrializer implements StreamSerializer {
                 Sections section = entry.getValue();
                 dos.writeUTF(type.name());
                 switch (type) {
-                    case PERSONAL :
-                    case OBJECTIVE :
+                    case PERSONAL:
+                    case OBJECTIVE:
                         dos.writeUTF(((TextSection) section).getDescription());
-                    break;
-                    case ACHIEVEMENT :
-                    case QUALIFICATIONS : {
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS: {
                         List<String> qualifications = (List<String>) entry.getValue();
                         dos.writeInt(qualifications.size());
                         for (String element : qualifications) {
                             dos.writeUTF(element);
                         }
                     }
-                    case EDUCATION : {
-
+                    case EDUCATION:
+                    case EXPERIENCE: {
+                        List<Organization> organizations = (List<Organization>) entry.getValue();
+                        for (Organization organization : organizations) {
+                            Link link = organization.getHomePage();
+                            dos.writeUTF(link.getName());
+                            dos.writeUTF(link.getUrl());
+                            List<Organization.Experience> experience = organization.getInstitutionPeriod();
+                            for (Organization.Experience element : experience) {
+                                 dos.writeInt(element.getDateFrom().getYear());
+                                 dos.writeInt(element.getDateFrom().getYear());
+                            }
+                        }
                     }
                 }
             }

@@ -32,6 +32,14 @@ public class Organization implements Serializable {
         institutionPeriod.add(institution);
     }
 
+    public Link getHomePage() {
+        return homePage;
+    }
+
+    public List<Experience> getInstitutionPeriod() {
+        return institutionPeriod;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,6 +84,22 @@ public class Organization implements Serializable {
             this.dateTo = NOW;
             this.title = title;
             this.description = description;
+        }
+
+        public YearMonth getDateFrom() {
+            return dateFrom;
+        }
+
+        public YearMonth getDateTo() {
+            return dateTo;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getDescription() {
+            return description;
         }
 
         @Override
