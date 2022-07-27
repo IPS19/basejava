@@ -3,6 +3,7 @@ package com.urise.webapp.storage.serializer;
 import com.urise.webapp.model.*;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,14 +41,19 @@ public class DataStreamSrializer implements StreamSerializer {
                     case EDUCATION:
                     case EXPERIENCE: {
                         List<Organization> organizations = (List<Organization>) entry.getValue();
+                        dos.writeInt(organizations.size());
                         for (Organization organization : organizations) {
                             Link link = organization.getHomePage();
                             dos.writeUTF(link.getName());
-                            dos.writeUTF(link.getUrl());
+                            String url = link.getUrl();
+                            if (url != null) dos.writeUTF(link.getUrl());
                             List<Organization.Experience> experience = organization.getInstitutionPeriod();
                             for (Organization.Experience element : experience) {
-                                 dos.writeInt(element.getDateFrom().getYear());
-                                 dos.writeInt(element.getDateFrom().getYear());
+                                dos.writeInt(element.getDateFrom().getYear());
+                                dos.writeInt(element.getDateFrom().getYear());
+                                dos.writeUTF(element.getTitle());
+                                String description = element.getDescription();
+                                if (description != null) dos.writeUTF(description);
                             }
                         }
                     }
@@ -73,37 +79,53 @@ public class DataStreamSrializer implements StreamSerializer {
                 String sectionType = dis.readUTF();
                 switch (sectionType) {
                     case "PERSONAL": {
-                        TextSection personal = new TextSection();
-                        personal.setDescription(dis.readUTF());
-                        resume.addSection(SectionType.PERSONAL, personal);
+                        resume.addSection(SectionType.PERSONAL, readTextSection(dis));
                     }
                     case "OBJECTIVE": {
-                        TextSection objective = new TextSection();
-                        objective.setDescription(dis.readUTF());
-                        resume.addSection(SectionType.OBJECTIVE, objective);
+                        resume.addSection(SectionType.OBJECTIVE, readTextSection(dis));
                     }
                     case "ACHIEVEMENT": {
-                        int achievementSize = dis.readInt();
-                        ListSection achievement = new ListSection();
-                        for (int j = 0; j < achievementSize; j++) {
-                            achievement.addElement(dis.readUTF());
-                        }
-                        resume.addSection(SectionType.OBJECTIVE, achievement);
+                        resume.addSection(SectionType.ACHIEVEMENT, readListSection(dis));
                     }
                     case "QUALIFICATIONS": {
-                        int qualificationsSize = dis.readInt();
-                        ListSection qualifications = new ListSection();
-                        for (int j = 0; j < qualificationsSize; j++) {
-                            qualifications.addElement(dis.readUTF());
-                        }
-                        resume.addSection(SectionType.OBJECTIVE, qualifications);
+                        resume.addSection(SectionType.QUALIFICATIONS, readListSection(dis));
                     }
-
+                    case "EDUCATION": {
+                        resume.addSection(SectionType.EDUCATION, );
+                    }
                 }
             }
             // TODO implements sections
             return resume;
         }
+    }
+
+    private TextSection readTextSection(DataInputStream dis) throws IOException {
+        TextSection text = new TextSection();
+        text.setDescription(dis.readUTF());
+        return text;
+    }
+
+    private ListSection readListSection(DataInputStream dis) throws IOException {
+        int listSize = dis.readInt();
+        ListSection list = new ListSection();
+        for (int i = 0; i < listSize; i++) {
+            list.addElement(dis.readUTF());
+        }
+        return list;
+    }
+
+    private ExperienceSection readExperienceSection(DataInputStream dis) throws IOException {
+        ExperienceSection experience = new ExperienceSection();
+        int listSize = dis.readInt();
+        List<Organization> organizations = new ArrayList<>();
+        for (int i = 0; i < listSize; i++) {
+            Organization organization = new Organization(dis.readUTF(),dis.readUTF(), )
+            Link link = new Link();
+            link.
+            organizations.add(dis.readUTF());
+        }
+
     }
 }
 
