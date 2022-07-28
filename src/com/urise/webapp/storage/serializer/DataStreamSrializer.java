@@ -3,6 +3,7 @@ package com.urise.webapp.storage.serializer;
 import com.urise.webapp.model.*;
 
 import java.io.*;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,34 +33,37 @@ public class DataStreamSrializer implements StreamSerializer {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS: {
-                        List<String> qualifications = (List<String>) entry.getValue();
-                        dos.writeInt(qualifications.size());
-                        for (String element : qualifications) {
+                        ListSection listSection = (ListSection) entry.getValue();
+                        List<String> list = listSection.getList();
+                        dos.writeInt(list.size());
+                        for (String element : list) {
                             dos.writeUTF(element);
                         }
                     }
                     case EDUCATION:
                     case EXPERIENCE: {
-                        List<Organization> organizations = (List<Organization>) entry.getValue();
+                        ExperienceSection experienceSection = (ExperienceSection) entry.getValue();
+                        List<Organization> organizations = experienceSection.getList();
                         dos.writeInt(organizations.size());
                         for (Organization organization : organizations) {
                             Link link = organization.getHomePage();
                             dos.writeUTF(link.getName());
-                            String url = link.getUrl();
-                            if (url != null) dos.writeUTF(link.getUrl());
+                            dos.writeUTF(link.getUrl());
                             List<Organization.Experience> experience = organization.getInstitutionPeriod();
+                            dos.writeInt(experience.size());
                             for (Organization.Experience element : experience) {
                                 dos.writeInt(element.getDateFrom().getYear());
-                                dos.writeInt(element.getDateFrom().getYear());
+                                dos.writeInt(element.getDateFrom().getMonthValue());
+                                dos.writeInt(element.getDateTo().getYear());
+                                dos.writeInt(element.getDateTo().getMonthValue());
                                 dos.writeUTF(element.getTitle());
                                 String description = element.getDescription();
-                                if (description != null) dos.writeUTF(description);
+                                dos.writeUTF(description);
                             }
                         }
                     }
                 }
             }
-
             // TODO implements sections
         }
     }
@@ -91,7 +95,10 @@ public class DataStreamSrializer implements StreamSerializer {
                         resume.addSection(SectionType.QUALIFICATIONS, readListSection(dis));
                     }
                     case "EDUCATION": {
-                        resume.addSection(SectionType.EDUCATION, );
+                        resume.addSection(SectionType.EDUCATION, readExperienceSection(dis));
+                    }
+                    case "EXPERIENCE": {
+                        resume.addSection(SectionType.EXPERIENCE, readExperienceSection(dis));
                     }
                 }
             }
@@ -116,16 +123,24 @@ public class DataStreamSrializer implements StreamSerializer {
     }
 
     private ExperienceSection readExperienceSection(DataInputStream dis) throws IOException {
-        ExperienceSection experience = new ExperienceSection();
-        int listSize = dis.readInt();
-        List<Organization> organizations = new ArrayList<>();
-        for (int i = 0; i < listSize; i++) {
-            Organization organization = new Organization(dis.readUTF(),dis.readUTF(), )
-            Link link = new Link();
-            link.
-            organizations.add(dis.readUTF());
-        }
+        ExperienceSection experienceSection = new ExperienceSection();
+        for (int i = 0; i < dis.readInt(); i++) {
+            String linkName = dis.readUTF();
+            String linkURL = dis.readUTF();
+            List<Organization.Experience> experience = new ArrayList<>();
+            for (int j = 0; j < dis.readInt(); j++) {
 
+                YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
+                YearMonth dateTo = YearMonth.of(dis.readInt(), dis.readInt());
+
+                Organization.Experience element = new Organization.Experience(
+                        dateFrom, dateTo, dis.readUTF(), dis.readUTF());
+                experience.add(element);
+            }
+            Organization organization = new Organization(linkName, linkURL, experience);
+            experienceSection.addElement(organization);
+        }
+        return experienceSection;
     }
 }
 

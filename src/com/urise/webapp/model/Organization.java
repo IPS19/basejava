@@ -17,13 +17,19 @@ import static com.urise.webapp.util.DateUtil.NOW;
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final List<Experience> institutionPeriod = new ArrayList<>();
+    private List<Experience> institutionPeriod = new ArrayList<>();
     private Link homePage;
 
     public Organization(String nameOfInstitution, String url, Experience institution) {
         institutionPeriod.add(institution);
         this.homePage = new Link(nameOfInstitution, url);
     }
+
+    public Organization(String nameOfInstitution, String url, List<Experience> institutionPeriod) {
+        this.institutionPeriod = institutionPeriod;
+        this.homePage = new Link(nameOfInstitution, url);
+    }
+
 
     public Organization() {
     }
