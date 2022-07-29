@@ -39,6 +39,7 @@ public class DataStreamSrializer implements StreamSerializer {
                         for (String element : list) {
                             dos.writeUTF(element);
                         }
+                        break;
                     }
                     case EDUCATION:
                     case EXPERIENCE: {
@@ -48,7 +49,14 @@ public class DataStreamSrializer implements StreamSerializer {
                         for (Organization organization : organizations) {
                             Link link = organization.getHomePage();
                             dos.writeUTF(link.getName());
-                            dos.writeUTF(link.getUrl());
+                            String url = link.getUrl();
+                            if (url == null) {
+                                dos.writeBoolean(false);
+                            } else {
+                                dos.writeBoolean(true);
+                                dos.writeUTF(link.getUrl());
+                            }
+
                             List<Organization.Experience> experience = organization.getInstitutionPeriod();
                             dos.writeInt(experience.size());
                             for (Organization.Experience element : experience) {
@@ -58,9 +66,15 @@ public class DataStreamSrializer implements StreamSerializer {
                                 dos.writeInt(element.getDateTo().getMonthValue());
                                 dos.writeUTF(element.getTitle());
                                 String description = element.getDescription();
-                                dos.writeUTF(description);
+                                if (description == null) {
+                                    dos.writeBoolean(false);
+                                } else {
+                                    dos.writeBoolean(true);
+                                    dos.writeUTF(description);
+                                }
                             }
                         }
+                        break;
                     }
                 }
             }
@@ -126,15 +140,25 @@ public class DataStreamSrializer implements StreamSerializer {
         ExperienceSection experienceSection = new ExperienceSection();
         for (int i = 0; i < dis.readInt(); i++) {
             String linkName = dis.readUTF();
-            String linkURL = dis.readUTF();
+            boolean isExistUrl = dis.readBoolean();
+            String linkURL = null;
+            if (isExistUrl) {
+                linkURL = dis.readUTF();
+            }
             List<Organization.Experience> experience = new ArrayList<>();
             for (int j = 0; j < dis.readInt(); j++) {
 
                 YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
                 YearMonth dateTo = YearMonth.of(dis.readInt(), dis.readInt());
+                String title = dis.readUTF();
+                String description = null;
+                boolean isExistDescription = dis.readBoolean();
+                if (isExistDescription) {
+                    description = dis.readUTF();
+                }
 
                 Organization.Experience element = new Organization.Experience(
-                        dateFrom, dateTo, dis.readUTF(), dis.readUTF());
+                        dateFrom, dateTo, title, description);
                 experience.add(element);
             }
             Organization organization = new Organization(linkName, linkURL, experience);
