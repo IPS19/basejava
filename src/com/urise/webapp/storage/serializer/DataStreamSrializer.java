@@ -97,22 +97,100 @@ public class DataStreamSrializer implements StreamSerializer {
                 String sectionType = dis.readUTF();
                 switch (sectionType) {
                     case "PERSONAL": {
-                        resume.addSection(SectionType.PERSONAL, readTextSection(dis));
+                        TextSection textSection = new TextSection();
+                        textSection.setDescription(dis.readUTF());
+                        resume.addSection(SectionType.PERSONAL, textSection);
+                        break;
                     }
                     case "OBJECTIVE": {
-                        resume.addSection(SectionType.OBJECTIVE, readTextSection(dis));
+                        TextSection textSection = new TextSection();
+                        textSection.setDescription(dis.readUTF());
+                        resume.addSection(SectionType.OBJECTIVE, textSection);
+                        break;
                     }
                     case "ACHIEVEMENT": {
-                        resume.addSection(SectionType.ACHIEVEMENT, readListSection(dis));
+                        int size = dis.readInt();
+                        ListSection listSection = new ListSection();
+                        for (int j = 0; j < size; j++) {
+                            listSection.addElement(dis.readUTF());
+                        }
+                        resume.addSection(SectionType.ACHIEVEMENT, listSection);
+                        break;
                     }
                     case "QUALIFICATIONS": {
-                        resume.addSection(SectionType.QUALIFICATIONS, readListSection(dis));
+                        int size = dis.readInt();
+                        ListSection listSection = new ListSection();
+                        for (int j = 0; j < size; j++) {
+                            listSection.addElement(dis.readUTF());
+                        }
+                        resume.addSection(SectionType.QUALIFICATIONS, listSection);
+                        break;
                     }
                     case "EDUCATION": {
-                        resume.addSection(SectionType.EDUCATION, readExperienceSection(dis));
+                        ExperienceSection experienceSection = new ExperienceSection();
+                        List<Organization> organizations = new ArrayList<>();
+                        int organizationsSize = dis.readInt();
+                        for (int j = 0; j < organizationsSize; j++) {
+                            String name = dis.readUTF();
+                            String url = null;
+                            if (dis.readBoolean()) {
+                                url = dis.readUTF();
+                            }
+
+                            List <Organization.Experience> experience = new ArrayList<>();
+                            int experienceSize = dis.readInt();
+                            for (int k = 0; k < experienceSize; k++) {
+                                YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
+                                YearMonth dateTo = YearMonth.of(dis.readInt(), dis.readInt());
+                                String title = dis.readUTF();
+                                String description = null;
+                                boolean isExistDescription = dis.readBoolean();
+                                if (isExistDescription) {
+                                    description = dis.readUTF();
+                                }
+                                Organization.Experience element = new Organization.Experience(
+                                        dateFrom, dateTo, title, description);
+                                experience.add(element);
+                            }
+                            Organization organization = new Organization(name, url,experience);
+                            experienceSection.addElement(organization);
+                        }
+
+                        resume.addSection(SectionType.EDUCATION, experienceSection);
+                        break;
                     }
                     case "EXPERIENCE": {
-                        resume.addSection(SectionType.EXPERIENCE, readExperienceSection(dis));
+                        ExperienceSection experienceSection = new ExperienceSection();
+                        List<Organization> organizations = new ArrayList<>();
+                        int organizationsSize = dis.readInt();
+                        for (int j = 0; j < organizationsSize; j++) {
+                            String name = dis.readUTF();
+                            String url = null;
+                            if (dis.readBoolean()) {
+                                url = dis.readUTF();
+                            }
+
+                            List <Organization.Experience> experience = new ArrayList<>();
+                            int experienceSize = dis.readInt();
+                            for (int k = 0; k < experienceSize; k++) {
+                                YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
+                                YearMonth dateTo = YearMonth.of(dis.readInt(), dis.readInt());
+                                String title = dis.readUTF();
+                                String description = null;
+                                boolean isExistDescription = dis.readBoolean();
+                                if (isExistDescription) {
+                                    description = dis.readUTF();
+                                }
+                                Organization.Experience element = new Organization.Experience(
+                                        dateFrom, dateTo, title, description);
+                                experience.add(element);
+                            }
+                            Organization organization = new Organization(name, url,experience);
+                            experienceSection.addElement(organization);
+                        }
+
+                        resume.addSection(SectionType.EXPERIENCE, experienceSection);
+                        break;
                     }
                 }
             }
@@ -121,7 +199,7 @@ public class DataStreamSrializer implements StreamSerializer {
         }
     }
 
-    private TextSection readTextSection(DataInputStream dis) throws IOException {
+/*    private TextSection readTextSection(DataInputStream dis) throws IOException {
         TextSection text = new TextSection();
         text.setDescription(dis.readUTF());
         return text;
@@ -165,6 +243,6 @@ public class DataStreamSrializer implements StreamSerializer {
             experienceSection.addElement(organization);
         }
         return experienceSection;
-    }
+    }*/
 }
 
