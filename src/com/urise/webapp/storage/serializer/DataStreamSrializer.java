@@ -50,6 +50,12 @@ public class DataStreamSrializer implements StreamSerializer {
                             Link link = organization.getHomePage();
                             dos.writeUTF(link.getName());
                             String url = link.getUrl();
+
+/*                            url == null ? dos.writeBoolean(false) : {
+                                dos.writeBoolean(true);
+                                dos.writeUTF(link.getUrl());
+                            }*/
+
                             if (url == null) {
                                 dos.writeBoolean(false);
                             } else {
@@ -96,69 +102,30 @@ public class DataStreamSrializer implements StreamSerializer {
             for (int i = 0; i < sizeSections; i++) {
                 String sectionType = dis.readUTF();
                 switch (sectionType) {
-                    case "PERSONAL": {
-                        TextSection textSection = new TextSection();
-                        textSection.setDescription(dis.readUTF());
-                        resume.addSection(SectionType.PERSONAL, textSection);
-                        break;
-                    }
+                    case "PERSONAL":
                     case "OBJECTIVE": {
                         TextSection textSection = new TextSection();
                         textSection.setDescription(dis.readUTF());
-                        resume.addSection(SectionType.OBJECTIVE, textSection);
+                        if (sectionType.equals("PERSONAL")) {
+                            resume.addSection(SectionType.PERSONAL, textSection);
+                        } else resume.addSection(SectionType.OBJECTIVE, textSection);
+
                         break;
                     }
-                    case "ACHIEVEMENT": {
-                        int size = dis.readInt();
-                        ListSection listSection = new ListSection();
-                        for (int j = 0; j < size; j++) {
-                            listSection.addElement(dis.readUTF());
-                        }
-                        resume.addSection(SectionType.ACHIEVEMENT, listSection);
-                        break;
-                    }
+                    case "ACHIEVEMENT":
                     case "QUALIFICATIONS": {
                         int size = dis.readInt();
                         ListSection listSection = new ListSection();
                         for (int j = 0; j < size; j++) {
                             listSection.addElement(dis.readUTF());
                         }
-                        resume.addSection(SectionType.QUALIFICATIONS, listSection);
+                        if (sectionType.equals("ACHIEVEMENT")) {
+                            resume.addSection(SectionType.ACHIEVEMENT, listSection);
+                        } else resume.addSection(SectionType.QUALIFICATIONS, listSection);
+
                         break;
                     }
-                    case "EDUCATION": {
-                        ExperienceSection experienceSection = new ExperienceSection();
-                        List<Organization> organizations = new ArrayList<>();
-                        int organizationsSize = dis.readInt();
-                        for (int j = 0; j < organizationsSize; j++) {
-                            String name = dis.readUTF();
-                            String url = null;
-                            if (dis.readBoolean()) {
-                                url = dis.readUTF();
-                            }
-
-                            List <Organization.Experience> experience = new ArrayList<>();
-                            int experienceSize = dis.readInt();
-                            for (int k = 0; k < experienceSize; k++) {
-                                YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
-                                YearMonth dateTo = YearMonth.of(dis.readInt(), dis.readInt());
-                                String title = dis.readUTF();
-                                String description = null;
-                                boolean isExistDescription = dis.readBoolean();
-                                if (isExistDescription) {
-                                    description = dis.readUTF();
-                                }
-                                Organization.Experience element = new Organization.Experience(
-                                        dateFrom, dateTo, title, description);
-                                experience.add(element);
-                            }
-                            Organization organization = new Organization(name, url,experience);
-                            experienceSection.addElement(organization);
-                        }
-
-                        resume.addSection(SectionType.EDUCATION, experienceSection);
-                        break;
-                    }
+                    case "EDUCATION":
                     case "EXPERIENCE": {
                         ExperienceSection experienceSection = new ExperienceSection();
                         List<Organization> organizations = new ArrayList<>();
@@ -185,11 +152,13 @@ public class DataStreamSrializer implements StreamSerializer {
                                         dateFrom, dateTo, title, description);
                                 experience.add(element);
                             }
-                            Organization organization = new Organization(name, url,experience);
+                            Organization organization = new Organization(name, url, experience);
                             experienceSection.addElement(organization);
                         }
 
-                        resume.addSection(SectionType.EXPERIENCE, experienceSection);
+                        if (sectionType.equals("EDUCATION")) {
+                            resume.addSection(SectionType.EDUCATION, experienceSection);
+                        } else resume.addSection(SectionType.EXPERIENCE, experienceSection);
                         break;
                     }
                 }
@@ -198,51 +167,5 @@ public class DataStreamSrializer implements StreamSerializer {
             return resume;
         }
     }
-
-/*    private TextSection readTextSection(DataInputStream dis) throws IOException {
-        TextSection text = new TextSection();
-        text.setDescription(dis.readUTF());
-        return text;
-    }
-
-    private ListSection readListSection(DataInputStream dis) throws IOException {
-        int listSize = dis.readInt();
-        ListSection list = new ListSection();
-        for (int i = 0; i < listSize; i++) {
-            list.addElement(dis.readUTF());
-        }
-        return list;
-    }
-
-    private ExperienceSection readExperienceSection(DataInputStream dis) throws IOException {
-        ExperienceSection experienceSection = new ExperienceSection();
-        for (int i = 0; i < dis.readInt(); i++) {
-            String linkName = dis.readUTF();
-            boolean isExistUrl = dis.readBoolean();
-            String linkURL = null;
-            if (isExistUrl) {
-                linkURL = dis.readUTF();
-            }
-            List<Organization.Experience> experience = new ArrayList<>();
-            for (int j = 0; j < dis.readInt(); j++) {
-
-                YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
-                YearMonth dateTo = YearMonth.of(dis.readInt(), dis.readInt());
-                String title = dis.readUTF();
-                String description = null;
-                boolean isExistDescription = dis.readBoolean();
-                if (isExistDescription) {
-                    description = dis.readUTF();
-                }
-
-                Organization.Experience element = new Organization.Experience(
-                        dateFrom, dateTo, title, description);
-                experience.add(element);
-            }
-            Organization organization = new Organization(linkName, linkURL, experience);
-            experienceSection.addElement(organization);
-        }
-        return experienceSection;
-    }*/
 }
 
