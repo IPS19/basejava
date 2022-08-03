@@ -51,17 +51,7 @@ public class DataStreamSrializer implements StreamSerializer {
                             dos.writeUTF(link.getName());
                             String url = link.getUrl();
 
-/*                            url == null ? dos.writeBoolean(false) : {
-                                dos.writeBoolean(true);
-                                dos.writeUTF(link.getUrl());
-                            }*/
-
-                            if (url == null) {
-                                dos.writeBoolean(false);
-                            } else {
-                                dos.writeBoolean(true);
-                                dos.writeUTF(link.getUrl());
-                            }
+                            dos.writeUTF(url == null ? "" : url);
 
                             List<Organization.Experience> experience = organization.getInstitutionPeriod();
                             dos.writeInt(experience.size());
@@ -72,12 +62,8 @@ public class DataStreamSrializer implements StreamSerializer {
                                 dos.writeInt(element.getDateTo().getMonthValue());
                                 dos.writeUTF(element.getTitle());
                                 String description = element.getDescription();
-                                if (description == null) {
-                                    dos.writeBoolean(false);
-                                } else {
-                                    dos.writeBoolean(true);
-                                    dos.writeUTF(description);
-                                }
+
+                                dos.writeUTF(description == null ? "" : description);
                             }
                         }
                         break;
@@ -109,7 +95,6 @@ public class DataStreamSrializer implements StreamSerializer {
                         if (sectionType.equals("PERSONAL")) {
                             resume.addSection(SectionType.PERSONAL, textSection);
                         } else resume.addSection(SectionType.OBJECTIVE, textSection);
-
                         break;
                     }
                     case "ACHIEVEMENT":
@@ -122,7 +107,6 @@ public class DataStreamSrializer implements StreamSerializer {
                         if (sectionType.equals("ACHIEVEMENT")) {
                             resume.addSection(SectionType.ACHIEVEMENT, listSection);
                         } else resume.addSection(SectionType.QUALIFICATIONS, listSection);
-
                         break;
                     }
                     case "EDUCATION":
@@ -132,22 +116,18 @@ public class DataStreamSrializer implements StreamSerializer {
                         int organizationsSize = dis.readInt();
                         for (int j = 0; j < organizationsSize; j++) {
                             String name = dis.readUTF();
-                            String url = null;
-                            if (dis.readBoolean()) {
-                                url = dis.readUTF();
-                            }
 
-                            List <Organization.Experience> experience = new ArrayList<>();
+                            String url =  dis.readUTF();
+
+                            List<Organization.Experience> experience = new ArrayList<>();
                             int experienceSize = dis.readInt();
                             for (int k = 0; k < experienceSize; k++) {
                                 YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
                                 YearMonth dateTo = YearMonth.of(dis.readInt(), dis.readInt());
                                 String title = dis.readUTF();
-                                String description = null;
-                                boolean isExistDescription = dis.readBoolean();
-                                if (isExistDescription) {
-                                    description = dis.readUTF();
-                                }
+
+                                String description = dis.readUTF();
+
                                 Organization.Experience element = new Organization.Experience(
                                         dateFrom, dateTo, title, description);
                                 experience.add(element);
@@ -155,7 +135,6 @@ public class DataStreamSrializer implements StreamSerializer {
                             Organization organization = new Organization(name, url, experience);
                             experienceSection.addElement(organization);
                         }
-
                         if (sectionType.equals("EDUCATION")) {
                             resume.addSection(SectionType.EDUCATION, experienceSection);
                         } else resume.addSection(SectionType.EXPERIENCE, experienceSection);
