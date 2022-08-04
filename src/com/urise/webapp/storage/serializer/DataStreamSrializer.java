@@ -117,7 +117,9 @@ public class DataStreamSrializer implements StreamSerializer {
                         for (int j = 0; j < organizationsSize; j++) {
                             String name = dis.readUTF();
 
-                            String url =  dis.readUTF();
+                            String url = dis.readUTF();
+
+                            url = (url.equals("") ? null : url);
 
                             List<Organization.Experience> experience = new ArrayList<>();
                             int experienceSize = dis.readInt();
@@ -127,6 +129,8 @@ public class DataStreamSrializer implements StreamSerializer {
                                 String title = dis.readUTF();
 
                                 String description = dis.readUTF();
+
+                                description = (description.equals("") ? null : description);
 
                                 Organization.Experience element = new Organization.Experience(
                                         dateFrom, dateTo, title, description);
