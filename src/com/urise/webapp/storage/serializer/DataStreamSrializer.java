@@ -5,6 +5,7 @@ import com.urise.webapp.model.*;
 import java.io.*;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -70,7 +71,12 @@ public class DataStreamSrializer implements StreamSerializer {
                     }
                 }
             }
-            // TODO implements sections
+        }
+    }
+
+    <T> void writeWithExeption(Collection<T> collection, Writer<T> writer, DataOutputStream dos) throws IOException {
+        for (T t : collection) {
+            writer.write(t);
         }
     }
 
