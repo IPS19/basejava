@@ -15,12 +15,16 @@ public class DataStreamSrializer implements StreamSerializer {
         try (DataOutputStream dos = new DataOutputStream(os)) {
             dos.writeUTF(r.getUuid());
             dos.writeUTF(r.getFullName());
+
             Map<ContactType, String> contacts = r.getContacts();
+
             dos.writeInt(contacts.size());
-            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
-                dos.writeUTF(entry.getKey().name());
-                dos.writeUTF(entry.getValue());
-            }
+
+            writeWithExeption(contacts.entrySet(), dos, writer -> {
+                dos.writeUTF(writer.getKey().name());
+                dos.writeUTF(writer.getValue());
+            });
+
             Map<SectionType, Sections> sections = r.getSections();
             dos.writeInt(sections.size());
             for (Map.Entry<SectionType, Sections> entry : sections.entrySet()) {
@@ -74,7 +78,8 @@ public class DataStreamSrializer implements StreamSerializer {
         }
     }
 
-    <T> void writeWithExeption(Collection<T> collection, Writer<T> writer, DataOutputStream dos) throws IOException {
+    <T> void writeWithExeption(Collection<T> collection, DataOutputStream dos, Writer<T> writer) throws IOException {
+        dos.writeInt(collection.size());
         for (T t : collection) {
             writer.write(t);
         }
