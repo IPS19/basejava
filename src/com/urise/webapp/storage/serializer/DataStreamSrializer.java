@@ -20,9 +20,12 @@ public class DataStreamSrializer implements StreamSerializer {
 
             dos.writeInt(contacts.size());
 
-            writeWithExeption(contacts.entrySet(), dos, writer -> {
-                dos.writeUTF(writer.getKey().name());
-                dos.writeUTF(writer.getValue());
+            writeWithExeption(contacts.entrySet(), dos, new Writer<Map.Entry<ContactType, String>>() {
+                @Override
+                public void write(Map.Entry<ContactType, String> contactTypeStringEntry) throws IOException {
+                    dos.writeUTF(contactTypeStringEntry.getKey().name());
+                    dos.writeUTF(contactTypeStringEntry.getValue());
+                }
             });
 
             Map<SectionType, Sections> sections = r.getSections();
@@ -75,13 +78,6 @@ public class DataStreamSrializer implements StreamSerializer {
                     }
                 }
             }
-        }
-    }
-
-    <T> void writeWithExeption(Collection<T> collection, DataOutputStream dos, Writer<T> writer) throws IOException {
-        dos.writeInt(collection.size());
-        for (T t : collection) {
-            writer.write(t);
         }
     }
 
@@ -159,6 +155,12 @@ public class DataStreamSrializer implements StreamSerializer {
             }
             // TODO implements sections
             return resume;
+        }
+    }
+    <T> void writeWithExeption(Collection<T> collection, DataOutputStream dos, Writer<T> writer) throws IOException {
+        dos.writeInt(collection.size());
+        for (T t : collection) {
+            writer.write(t);
         }
     }
 }
