@@ -18,21 +18,23 @@ public class DataStreamSrializer implements StreamSerializer {
 
             Map<ContactType, String> contacts = r.getContacts();
 
-            dos.writeInt(contacts.size());
-
-            writeWithExeption(contacts.entrySet(), dos, new Writer<Map.Entry<ContactType, String>>() {
+/*            writeWithExeption(contacts.entrySet(), dos, new Writer<Map.Entry<ContactType, String>>() {
                 @Override
                 public void write(Map.Entry<ContactType, String> contactTypeStringEntry) throws IOException {
                     dos.writeUTF(contactTypeStringEntry.getKey().name());
                     dos.writeUTF(contactTypeStringEntry.getValue());
                 }
+            });*/
+
+            writeWithException(contacts.entrySet(), dos, contactTypeStringEntry -> {
+                dos.writeUTF(contactTypeStringEntry.getKey().name());
+                dos.writeUTF(contactTypeStringEntry.getValue());
             });
 
             Map<SectionType, Sections> sections = r.getSections();
-            dos.writeInt(sections.size());
-            for (Map.Entry<SectionType, Sections> entry : sections.entrySet()) {
-                SectionType type = entry.getKey();
-                Sections section = entry.getValue();
+            writeWithException(sections.entrySet(), dos, entrySet -> {
+                SectionType type = entrySet.getKey();
+                Sections section = entrySet.getValue();
                 dos.writeUTF(type.name());
                 switch (type) {
                     case PERSONAL:
@@ -41,7 +43,7 @@ public class DataStreamSrializer implements StreamSerializer {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS: {
-                        ListSection listSection = (ListSection) entry.getValue();
+                        ListSection listSection = (ListSection) entrySet.getValue();
                         List<String> list = listSection.getList();
                         dos.writeInt(list.size());
                         for (String element : list) {
@@ -51,7 +53,7 @@ public class DataStreamSrializer implements StreamSerializer {
                     }
                     case EDUCATION:
                     case EXPERIENCE: {
-                        ExperienceSection experienceSection = (ExperienceSection) entry.getValue();
+                        ExperienceSection experienceSection = (ExperienceSection) entrySet.getValue();
                         List<Organization> organizations = experienceSection.getList();
                         dos.writeInt(organizations.size());
                         for (Organization organization : organizations) {
@@ -77,7 +79,8 @@ public class DataStreamSrializer implements StreamSerializer {
                         break;
                     }
                 }
-            }
+
+            });
         }
     }
 
@@ -157,7 +160,7 @@ public class DataStreamSrializer implements StreamSerializer {
             return resume;
         }
     }
-    <T> void writeWithExeption(Collection<T> collection, DataOutputStream dos, Writer<T> writer) throws IOException {
+    <T> void writeWithException(Collection<T> collection, DataOutputStream dos, Writer<T> writer) throws IOException {
         dos.writeInt(collection.size());
         for (T t : collection) {
             writer.write(t);
