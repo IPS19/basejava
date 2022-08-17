@@ -30,7 +30,6 @@ public class Organization implements Serializable {
         this.homePage = new Link(nameOfInstitution, url);
     }
 
-
     public Organization() {
     }
 

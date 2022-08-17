@@ -45,18 +45,14 @@ public class DataStreamSrializer implements StreamSerializer {
                     case QUALIFICATIONS: {
                         ListSection listSection = (ListSection) entrySet.getValue();
                         List<String> list = listSection.getList();
-                        dos.writeInt(list.size());
-                        for (String element : list) {
-                            dos.writeUTF(element);
-                        }
+                        writeWithException(list, dos, dos::writeUTF);
                         break;
                     }
                     case EDUCATION:
                     case EXPERIENCE: {
                         ExperienceSection experienceSection = (ExperienceSection) entrySet.getValue();
                         List<Organization> organizations = experienceSection.getList();
-                        dos.writeInt(organizations.size());
-                        for (Organization organization : organizations) {
+                        writeWithException(organizations, dos, organization -> {
                             Link link = organization.getHomePage();
                             dos.writeUTF(link.getName());
                             String url = link.getUrl();
@@ -64,22 +60,20 @@ public class DataStreamSrializer implements StreamSerializer {
                             dos.writeUTF(url == null ? "" : url);
 
                             List<Organization.Experience> experience = organization.getInstitutionPeriod();
-                            dos.writeInt(experience.size());
-                            for (Organization.Experience element : experience) {
-                                dos.writeInt(element.getDateFrom().getYear());
-                                dos.writeInt(element.getDateFrom().getMonthValue());
-                                dos.writeInt(element.getDateTo().getYear());
-                                dos.writeInt(element.getDateTo().getMonthValue());
-                                dos.writeUTF(element.getTitle());
-                                String description = element.getDescription();
+
+                            writeWithException(experience, dos, org -> {
+                                dos.writeInt(org.getDateFrom().getYear());
+                                dos.writeInt(org.getDateTo().getYear());
+                                dos.writeInt(org.getDateTo().getMonthValue());
+                                dos.writeUTF(org.getTitle());
+                                String description = org.getDescription();
 
                                 dos.writeUTF(description == null ? "" : description);
-                            }
-                        }
+                            });
+                        });
+                    }
                         break;
                     }
-                }
-
             });
         }
     }
