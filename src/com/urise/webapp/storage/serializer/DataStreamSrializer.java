@@ -72,8 +72,8 @@ public class DataStreamSrializer implements StreamSerializer {
                             });
                         });
                     }
-                        break;
-                    }
+                    break;
+                }
             });
         }
     }
@@ -154,11 +154,27 @@ public class DataStreamSrializer implements StreamSerializer {
             return resume;
         }
     }
+
     <T> void writeWithException(Collection<T> collection, DataOutputStream dos, Writer<T> writer) throws IOException {
         dos.writeInt(collection.size());
         for (T t : collection) {
             writer.write(t);
         }
     }
-}
 
+    <T> void readWithException(Collection<T> collection, DataInputStream dis, Reader<T> reader) throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            reader.read();
+        }
+    }
+
+
+    public interface Writer<T> {
+        void write(T t) throws IOException;
+    }
+
+    public interface Reader<T> {
+        T read() throws IOException;
+    }
+}
