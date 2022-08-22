@@ -63,6 +63,7 @@ public class DataStreamSrializer implements StreamSerializer {
 
                             writeWithException(experience, dos, org -> {
                                 dos.writeInt(org.getDateFrom().getYear());
+                                dos.writeInt(org.getDateFrom().getMonthValue());
                                 dos.writeInt(org.getDateTo().getYear());
                                 dos.writeInt(org.getDateTo().getMonthValue());
                                 dos.writeUTF(org.getTitle());
@@ -84,12 +85,10 @@ public class DataStreamSrializer implements StreamSerializer {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int sizeContacts = dis.readInt();
-            for (int i = 0; i < sizeContacts; i++) {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
-            int sizeSections = dis.readInt();
-            for (int i = 0; i < sizeSections; i++) {
+
+            readWithException(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+
+            readWithException(dis, () -> {
                 String sectionType = dis.readUTF();
                 switch (sectionType) {
                     case "PERSONAL":
@@ -103,11 +102,10 @@ public class DataStreamSrializer implements StreamSerializer {
                     }
                     case "ACHIEVEMENT":
                     case "QUALIFICATIONS": {
-                        int size = dis.readInt();
                         ListSection listSection = new ListSection();
-                        for (int j = 0; j < size; j++) {
+                        readWithException(dis, () -> {
                             listSection.addElement(dis.readUTF());
-                        }
+                        });
                         if (sectionType.equals("ACHIEVEMENT")) {
                             resume.addSection(SectionType.ACHIEVEMENT, listSection);
                         } else resume.addSection(SectionType.QUALIFICATIONS, listSection);
@@ -117,10 +115,8 @@ public class DataStreamSrializer implements StreamSerializer {
                     case "EXPERIENCE": {
                         ExperienceSection experienceSection = new ExperienceSection();
                         List<Organization> organizations = new ArrayList<>();
-                        int organizationsSize = dis.readInt();
-                        for (int j = 0; j < organizationsSize; j++) {
+                        readWithException(dis, () -> {
                             String name = dis.readUTF();
-
                             String url = dis.readUTF();
 
                             url = (url.equals("") ? null : url);
@@ -142,14 +138,15 @@ public class DataStreamSrializer implements StreamSerializer {
                             }
                             Organization organization = new Organization(name, url, experience);
                             experienceSection.addElement(organization);
-                        }
+                        });
+
                         if (sectionType.equals("EDUCATION")) {
                             resume.addSection(SectionType.EDUCATION, experienceSection);
                         } else resume.addSection(SectionType.EXPERIENCE, experienceSection);
                         break;
                     }
                 }
-            }
+            });
             // TODO implements sections
             return resume;
         }
@@ -162,19 +159,18 @@ public class DataStreamSrializer implements StreamSerializer {
         }
     }
 
-    <T> void readWithException(Collection<T> collection, DataInputStream dis, Reader<T> reader) throws IOException {
+    void readWithException(DataInputStream dis, Reader reader) throws IOException {
         int size = dis.readInt();
         for (int i = 0; i < size; i++) {
             reader.read();
         }
     }
 
-
     public interface Writer<T> {
         void write(T t) throws IOException;
     }
 
-    public interface Reader<T> {
-        T read() throws IOException;
+    public interface Reader {
+        void read() throws IOException;
     }
 }
