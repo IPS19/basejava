@@ -10,22 +10,27 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ExperienceSection extends Sections implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final List<Organization> list = new ArrayList<>();
+    private List<Organization> organizations = new ArrayList<>();
 
-    public ExperienceSection() {
+    public ExperienceSection(List<Organization> organizations) {
+        this.organizations = organizations;
     }
 
-    public List<Organization> getList() {
-        return list;
+    public ExperienceSection() {
+
+    }
+
+    public List<Organization> getOrganizations() {
+        return organizations;
     }
 
     public void addElement(Organization element) {
-        list.add(element);
+        organizations.add(element);
     }
 
     @Override
     public String toString() {
-        for (Organization organization : list) {
+        for (Organization organization : organizations) {
             System.out.println(organization);
         }
         return "";
@@ -37,11 +42,11 @@ public class ExperienceSection extends Sections implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         ExperienceSection that = (ExperienceSection) o;
         //return Objects.equals(list, that.list);
-        return list.equals(that.list);
+        return organizations.equals(that.organizations);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(list);
+        return Objects.hash(organizations);
     }
 }

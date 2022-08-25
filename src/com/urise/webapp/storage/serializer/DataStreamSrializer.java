@@ -51,7 +51,7 @@ public class DataStreamSrializer implements StreamSerializer {
                     case EDUCATION:
                     case EXPERIENCE: {
                         ExperienceSection experienceSection = (ExperienceSection) entrySet.getValue();
-                        List<Organization> organizations = experienceSection.getList();
+                        List<Organization> organizations = experienceSection.getOrganizations();
                         writeWithException(organizations, dos, organization -> {
                             Link link = organization.getHomePage();
                             dos.writeUTF(link.getName());
@@ -101,42 +101,37 @@ public class DataStreamSrializer implements StreamSerializer {
                         break;
                     }
                     case "ACHIEVEMENT":
-                    case "QUALIFICATIONS": {
-                        ListSection listSection = new ListSection();
-                        readWithException(dis, () -> {
-                            listSection.addElement(dis.readUTF());
-                        });
+                    case "QUALIFICATIONS":
+                        ListSection listSection = new ListSection(readList(dis, dis::readUTF));
+
                         if (sectionType.equals("ACHIEVEMENT")) {
                             resume.addSection(SectionType.ACHIEVEMENT, listSection);
                         } else resume.addSection(SectionType.QUALIFICATIONS, listSection);
                         break;
-                    }
+
                     case "EDUCATION":
                     case "EXPERIENCE": {
                         ExperienceSection experienceSection = new ExperienceSection();
-                        List<Organization> organizations = new ArrayList<>();
                         readWithException(dis, () -> {
                             String name = dis.readUTF();
                             String url = dis.readUTF();
 
                             url = (url.equals("") ? null : url);
 
-                            List<Organization.Experience> experience = new ArrayList<>();
-                            int experienceSize = dis.readInt();
-                            for (int k = 0; k < experienceSize; k++) {
-                                YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
-                                YearMonth dateTo = YearMonth.of(dis.readInt(), dis.readInt());
-                                String title = dis.readUTF();
+                            Organization organization = new Organization(name, url, readList(dis, () -> {
+                                    YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
+                                    YearMonth dateTo = YearMonth.of(dis.readInt(), dis.readInt());
+                                    String title = dis.readUTF();
 
-                                String description = dis.readUTF();
+                                    String description = dis.readUTF();
 
-                                description = (description.equals("") ? null : description);
+                                    description = (description.equals("") ? null : description);
 
-                                Organization.Experience element = new Organization.Experience(
-                                        dateFrom, dateTo, title, description);
-                                experience.add(element);
-                            }
-                            Organization organization = new Organization(name, url, experience);
+                                    Organization.Experience element = new Organization.Experience(
+                                            dateFrom, dateTo, title, description);
+                                    return element;
+                                }
+                            ));
                             experienceSection.addElement(organization);
                         });
 
@@ -159,6 +154,15 @@ public class DataStreamSrializer implements StreamSerializer {
         }
     }
 
+    <T> List<T> readList(DataInputStream dis, ListReader<T> listReader) throws IOException {
+        int size = dis.readInt();
+        List<T> list = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            list.add(listReader.readElement());
+        }
+        return list;
+    }
+
     void readWithException(DataInputStream dis, Reader reader) throws IOException {
         int size = dis.readInt();
         for (int i = 0; i < size; i++) {
@@ -172,5 +176,9 @@ public class DataStreamSrializer implements StreamSerializer {
 
     public interface Reader {
         void read() throws IOException;
+    }
+
+    public interface ListReader<T> {
+        T readElement() throws IOException;
     }
 }

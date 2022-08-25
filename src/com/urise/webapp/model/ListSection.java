@@ -15,6 +15,10 @@ public class ListSection  extends Sections implements Serializable {
     public ListSection() {
     }
 
+    public ListSection(List<String> list) {
+        this.list = list;
+    }
+
     public void setList(List<String> list) {
         this.list = list;
     }
