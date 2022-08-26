@@ -61,7 +61,21 @@ public class DataStreamSrializer implements StreamSerializer {
 
                             List<Organization.Experience> experience = organization.getInstitutionPeriod();
 
-                            writeWithException(experience, dos, org -> {
+                            writeWithException(experience, dos, new Writer<Organization.Experience>() {
+                                @Override
+                                public void write(Organization.Experience experience) throws IOException {
+                                    dos.writeInt(experience.getDateFrom().getYear());
+                                    dos.writeInt(experience.getDateFrom().getMonthValue());
+                                    dos.writeInt(experience.getDateTo().getYear());
+                                    dos.writeInt(experience.getDateTo().getMonthValue());
+                                    dos.writeUTF(experience.getTitle());
+                                    String description = experience.getDescription();
+
+                                    dos.writeUTF(description == null ? "" : description);
+                                }
+                            });
+
+                          /*  writeWithException(experience, dos, org -> {
                                 dos.writeInt(org.getDateFrom().getYear());
                                 dos.writeInt(org.getDateFrom().getMonthValue());
                                 dos.writeInt(org.getDateTo().getYear());
@@ -70,7 +84,7 @@ public class DataStreamSrializer implements StreamSerializer {
                                 String description = org.getDescription();
 
                                 dos.writeUTF(description == null ? "" : description);
-                            });
+                            });*/
                         });
                     }
                     break;
@@ -88,29 +102,33 @@ public class DataStreamSrializer implements StreamSerializer {
 
             readWithException(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
 
+            /*  readWithException(dis, new Reader() {
+                @Override
+                public void read() throws IOException {
+                    resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+                }
+            });*/
+
             readWithException(dis, () -> {
-                String sectionType = dis.readUTF();
+                SectionType sectionType = SectionType.valueOf(dis.readUTF());
                 switch (sectionType) {
-                    case "PERSONAL":
-                    case "OBJECTIVE": {
+                    case PERSONAL:
+                    case OBJECTIVE: {
                         TextSection textSection = new TextSection();
                         textSection.setDescription(dis.readUTF());
-                        if (sectionType.equals("PERSONAL")) {
-                            resume.addSection(SectionType.PERSONAL, textSection);
-                        } else resume.addSection(SectionType.OBJECTIVE, textSection);
+
+                        resume.addSection(sectionType,textSection);
                         break;
                     }
-                    case "ACHIEVEMENT":
-                    case "QUALIFICATIONS":
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
                         ListSection listSection = new ListSection(readList(dis, dis::readUTF));
 
-                        if (sectionType.equals("ACHIEVEMENT")) {
-                            resume.addSection(SectionType.ACHIEVEMENT, listSection);
-                        } else resume.addSection(SectionType.QUALIFICATIONS, listSection);
+                        resume.addSection(sectionType,listSection);
                         break;
 
-                    case "EDUCATION":
-                    case "EXPERIENCE": {
+                    case EDUCATION:
+                    case EXPERIENCE: {
                         ExperienceSection experienceSection = new ExperienceSection();
                         readWithException(dis, () -> {
                             String name = dis.readUTF();
@@ -118,31 +136,45 @@ public class DataStreamSrializer implements StreamSerializer {
 
                             url = (url.equals("") ? null : url);
 
-                            Organization organization = new Organization(name, url, readList(dis, () -> {
-                                    YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
-                                    YearMonth dateTo = YearMonth.of(dis.readInt(), dis.readInt());
-                                    String title = dis.readUTF();
+                            Organization organization = new Organization(name, url, readList(dis, new ListReader<Organization.Experience>() {
+                                        @Override
+                                        public Organization.Experience readElement() throws IOException {
+                                            YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
+                                            YearMonth dateTo = YearMonth.of(dis.readInt(), dis.readInt());
+                                            String title = dis.readUTF();
 
-                                    String description = dis.readUTF();
+                                            String description = dis.readUTF();
 
-                                    description = (description.equals("") ? null : description);
+                                            description = (description.equals("") ? null : description);
 
-                                    Organization.Experience element = new Organization.Experience(
-                                            dateFrom, dateTo, title, description);
-                                    return element;
-                                }
-                            ));
+                                            Organization.Experience element = new Organization.Experience(
+                                                    dateFrom, dateTo, title, description);
+                                            return element;
+                                        }
+                                    }));
+
+                                 /*   Organization organization = new Organization(name, url, readList(dis, () -> {
+                                                YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
+                                                YearMonth dateTo = YearMonth.of(dis.readInt(), dis.readInt());
+                                                String title = dis.readUTF();
+
+                                                String description = dis.readUTF();
+
+                                                description = (description.equals("") ? null : description);
+
+                                                Organization.Experience element = new Organization.Experience(
+                                                        dateFrom, dateTo, title, description);
+                                                return element;
+                                            }
+                                    ));*/
                             experienceSection.addElement(organization);
                         });
 
-                        if (sectionType.equals("EDUCATION")) {
-                            resume.addSection(SectionType.EDUCATION, experienceSection);
-                        } else resume.addSection(SectionType.EXPERIENCE, experienceSection);
+                        resume.addSection(sectionType,experienceSection);
                         break;
                     }
                 }
             });
-            // TODO implements sections
             return resume;
         }
     }
