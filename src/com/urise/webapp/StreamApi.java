@@ -12,13 +12,7 @@ public class StreamApi {
     }
 
     static int minValue(int[] values) {
-        int arr[] = Arrays.stream(values).distinct().sorted().toArray();
-        int size = arr.length - 1;
-        int result = 0;
-        for (int x : arr) {
-            result += x * Math.pow(10, size--);
-        }
-        //result = Arrays.stream(arr).map(x -> x * Math.pow(10, size--));
+        int result = Arrays.stream(values).distinct().sorted().reduce(0, (a, b) -> (a * 10) + b);
         System.out.println(result);
         return result;
     }
@@ -28,7 +22,5 @@ public class StreamApi {
             return integers.stream().filter(x -> x % 2 == 0).collect(Collectors.toList());
         }
         return integers.stream().filter(x -> x % 2 != 0).collect(Collectors.toList());
-
     }
 }
-
