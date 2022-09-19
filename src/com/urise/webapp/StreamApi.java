@@ -8,7 +8,7 @@ public class StreamApi {
     public static void main(String[] args) {
         int arr[] = {1, 5, 3, 3, 2, 3};
         System.out.println(minValue(arr));
-        System.out.println(oddOrEven(List.of(10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 111, 116)));
+        System.out.println(oddOrEven(List.of(10, 11, 12)));
     }
 
     static int minValue(int[] values) {
@@ -37,7 +37,7 @@ public class StreamApi {
                         .stream()
                         .reduce((a, b) -> a + b)
                         .stream()
-                        .anyMatch(y -> y % 2 == 0)) ? (x % 2 == 0) : (x % 2 != 0))
+                        .anyMatch(y -> y % 2 == 0)) ? (x % 2 != 0) : (x % 2 == 0))
                 .collect(Collectors.toList());
     }
 }
