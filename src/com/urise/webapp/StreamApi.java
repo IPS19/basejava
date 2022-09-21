@@ -33,11 +33,11 @@ public class StreamApi {
 
         return integers
                 .stream()
-                .filter(x -> (integers
+                .filter(x -> integers
                         .stream()
                         .reduce((a, b) -> a + b)
                         .stream()
-                        .anyMatch(y -> y % 2 == 0)) ? (x % 2 != 0) : (x % 2 == 0))
+                        .anyMatch(y -> y % 2 == 0) == (x % 2 != 0))
                 .collect(Collectors.toList());
     }
 }

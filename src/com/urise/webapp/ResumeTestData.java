@@ -9,7 +9,7 @@ public class ResumeTestData {
 
     public static Resume createResume(String uuid, String fullName) {
         Resume gKislin = new Resume(uuid, fullName);
-        gKislin.addContact(ContactType.PHONE, "+7(921) 855-0482");
+        /*gKislin.addContact(ContactType.PHONE, "+7(921) 855-0482");
         gKislin.addContact(ContactType.SKYPE, "grigory.kislin");
         gKislin.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
         gKislin.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
@@ -136,7 +136,7 @@ public class ResumeTestData {
         workExperience.addElement(rit);
         workExperience.addElement(wrike);
         workExperience.addElement(jop);
-        gKislin.addSection(SectionType.EXPERIENCE, workExperience);
+        gKislin.addSection(SectionType.EXPERIENCE, workExperience);*/
         return gKislin;
     }
 
