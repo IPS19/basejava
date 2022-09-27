@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,10 +20,10 @@ public abstract class AbstractStorageTest {
 
     protected Storage storage;
 
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-    private static final String UUID_4 = "uuid4";
+    private static final String UUID_1 = UUID.randomUUID().toString();
+    private static final String UUID_2 = UUID.randomUUID().toString();
+    private static final String UUID_3 = UUID.randomUUID().toString();
+    private static final String UUID_4 = UUID.randomUUID().toString();
 
     private static final Resume RESUME1 = ResumeTestData.createResume(UUID_1, "name1");
     private static final Resume RESUME2 = ResumeTestData.createResume(UUID_2, "name2");
@@ -56,7 +57,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume r = ResumeTestData.createResume("uuid2", "name2");
+        Resume r = ResumeTestData.createResume(RESUME2.getUuid(), "name2");
         storage.update(r);
         assertEquals(r, storage.get(UUID_2));
     }
@@ -76,7 +77,7 @@ public abstract class AbstractStorageTest {
     public void save() {
         storage.save(RESUME4);
         assertEquals(4, storage.size());
-        assertEquals(RESUME4, storage.get(UUID_4));
+        assertEquals(RESUME4, storage.get(RESUME4.getUuid()));
     }
 
     @Test(expected = ExistStorageException.class)

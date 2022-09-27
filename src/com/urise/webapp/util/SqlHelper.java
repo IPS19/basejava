@@ -7,7 +7,7 @@ import com.urise.webapp.sql.ConnectionFactory;
 import java.sql.*;
 
 public class SqlHelper {
-    public final ConnectionFactory connectionFactory;
+    private final ConnectionFactory connectionFactory;
 
 
     public SqlHelper(ConnectionFactory connectionFactory) {

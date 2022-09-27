@@ -1,24 +1,21 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.sql.ConnectionFactory;
 import com.urise.webapp.util.SqlHelper;
 
-import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class SqlStorage implements Storage {
-    public ConnectionFactory connectionFactory;
 
     SqlHelper sqlHelper;
 
     public SqlStorage(String dbURL, String dbUser, String dbPassword) {
-        sqlHelper = new SqlHelper (() -> DriverManager.getConnection(dbURL, dbUser, dbPassword));
+        sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dbURL, dbUser, dbPassword));
     }
 
     public void clear() {
@@ -50,12 +47,11 @@ public class SqlStorage implements Storage {
 
     public void delete(String uuid) {
         sqlHelper.connectAndDo("DELETE FROM resume WHERE uuid =?", (ps) -> {
-                ps.setString(1, uuid);
-                ps.execute();
-                if(ps.executeUpdate() == 0){
-                    throw new NotExistStorageException(uuid);
-                }
-                return true;
+            ps.setString(1, uuid);
+            if (ps.executeUpdate() == 0) {
+                throw new NotExistStorageException(uuid);
+            }
+            return true;
         });
     }
 
@@ -64,7 +60,7 @@ public class SqlStorage implements Storage {
             ResultSet rs = ps.executeQuery();
             List<Resume> resumes = new ArrayList<>();
             while (rs.next()) {
-                resumes.add(new Resume(rs.getString(1), rs.getString(2)));
+                resumes.add(new Resume(rs.getString("uuid"), rs.getString("full_name")));
             }
             return resumes;
         });
@@ -82,11 +78,10 @@ public class SqlStorage implements Storage {
     public void update(Resume resume) {
         sqlHelper.connectAndDo("UPDATE resume SET full_name=? WHERE uuid=?", (PreparedStatement ps) -> {
 
-                ps.setString(1, resume.getFullName());
-                ps.setString(2, resume.getUuid());
-                ps.execute();
-                if (ps.executeUpdate() == 0)
-                    throw new NotExistStorageException(resume.getUuid());
+            ps.setString(1, resume.getFullName());
+            ps.setString(2, resume.getUuid());
+            if (ps.executeUpdate() == 0)
+                throw new NotExistStorageException(resume.getUuid());
             return true;
         });
     }

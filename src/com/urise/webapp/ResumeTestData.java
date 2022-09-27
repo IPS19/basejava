@@ -4,6 +4,7 @@ import com.urise.webapp.model.*;
 
 import java.time.YearMonth;
 import java.util.Map;
+import java.util.UUID;
 
 public class ResumeTestData {
 
