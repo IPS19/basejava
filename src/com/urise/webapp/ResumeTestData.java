@@ -2,22 +2,20 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.*;
 
-import java.time.YearMonth;
 import java.util.Map;
-import java.util.UUID;
 
 public class ResumeTestData {
 
     public static Resume createResume(String uuid, String fullName) {
         Resume gKislin = new Resume(uuid, fullName);
-        /*gKislin.addContact(ContactType.PHONE, "+7(921) 855-0482");
+        gKislin.addContact(ContactType.PHONE, "+7(921) 855-0482");
         gKislin.addContact(ContactType.SKYPE, "grigory.kislin");
         gKislin.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
         gKislin.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
         gKislin.addContact(ContactType.GITHUB, "https://github.com/gkislin");
         gKislin.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
         gKislin.addContact(ContactType.HOMEPAGE, "http://gkislin.ru/");
-
+    /*
         TextSection objective = new TextSection();
         objective.setDescription("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям");
         gKislin.addSection(SectionType.OBJECTIVE, objective);

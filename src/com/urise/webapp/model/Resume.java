@@ -46,10 +46,6 @@ public class Resume implements Comparable<Resume>, Serializable {
         return fullName;
     }
 
-    public void addContact(ContactType kindOfContact, String contact) {
-        contacts.put(kindOfContact, contact);
-    }
-
     public Map<ContactType, String> getContacts() {
         return contacts;
     }
@@ -60,6 +56,10 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     public Map<SectionType, Sections> getSections() {
         return sections;
+    }
+
+    public void addContact(ContactType type, String value) {
+        contacts.put(type, value);
     }
 
     @Override

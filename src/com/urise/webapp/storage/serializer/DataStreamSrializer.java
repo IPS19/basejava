@@ -117,14 +117,14 @@ public class DataStreamSrializer implements StreamSerializer {
                         TextSection textSection = new TextSection();
                         textSection.setDescription(dis.readUTF());
 
-                        resume.addSection(sectionType,textSection);
+                        resume.addSection(sectionType, textSection);
                         break;
                     }
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         ListSection listSection = new ListSection(readList(dis, dis::readUTF));
 
-                        resume.addSection(sectionType,listSection);
+                        resume.addSection(sectionType, listSection);
                         break;
 
                     case EDUCATION:
@@ -137,21 +137,21 @@ public class DataStreamSrializer implements StreamSerializer {
                             url = (url.equals("") ? null : url);
 
                             Organization organization = new Organization(name, url, readList(dis, new ListReader<Organization.Experience>() {
-                                        @Override
-                                        public Organization.Experience readElement() throws IOException {
-                                            YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
-                                            YearMonth dateTo = YearMonth.of(dis.readInt(), dis.readInt());
-                                            String title = dis.readUTF();
+                                @Override
+                                public Organization.Experience readElement() throws IOException {
+                                    YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
+                                    YearMonth dateTo = YearMonth.of(dis.readInt(), dis.readInt());
+                                    String title = dis.readUTF();
 
-                                            String description = dis.readUTF();
+                                    String description = dis.readUTF();
 
-                                            description = (description.equals("") ? null : description);
+                                    description = (description.equals("") ? null : description);
 
-                                            Organization.Experience element = new Organization.Experience(
-                                                    dateFrom, dateTo, title, description);
-                                            return element;
-                                        }
-                                    }));
+                                    Organization.Experience element = new Organization.Experience(
+                                            dateFrom, dateTo, title, description);
+                                    return element;
+                                }
+                            }));
 
                                  /*   Organization organization = new Organization(name, url, readList(dis, () -> {
                                                 YearMonth dateFrom = YearMonth.of(dis.readInt(), dis.readInt());
@@ -170,7 +170,7 @@ public class DataStreamSrializer implements StreamSerializer {
                             experienceSection.addElement(organization);
                         });
 
-                        resume.addSection(sectionType,experienceSection);
+                        resume.addSection(sectionType, experienceSection);
                         break;
                     }
                 }
