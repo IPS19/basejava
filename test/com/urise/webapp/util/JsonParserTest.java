@@ -20,8 +20,7 @@ public class JsonParserTest extends TestCase {
     }
 
     public void testWrite() {
-        Sections section1 = new TextSection();
-        //23:00
+        TextSection section1 = new TextSection("Objective1");
         String json = JsonParser.write(section1, Sections.class);
         System.out.println(json);
         Sections section2 = JsonParser.read(json, Sections.class);

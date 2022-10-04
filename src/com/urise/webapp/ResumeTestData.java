@@ -2,6 +2,7 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.*;
 
+import java.time.YearMonth;
 import java.util.Map;
 
 public class ResumeTestData {
@@ -15,7 +16,7 @@ public class ResumeTestData {
         gKislin.addContact(ContactType.GITHUB, "https://github.com/gkislin");
         gKislin.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
         gKislin.addContact(ContactType.HOMEPAGE, "http://gkislin.ru/");
-    /*
+
         TextSection objective = new TextSection();
         objective.setDescription("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям");
         gKislin.addSection(SectionType.OBJECTIVE, objective);
@@ -67,7 +68,7 @@ public class ResumeTestData {
                 "архитектурных шаблонов, UML, функционального программирования");
         qualifications.addElement("Родной русский, английский \"upper intermediate\"");
         gKislin.addSection(SectionType.QUALIFICATIONS, qualifications);
-
+/*
         Organization school = new Organization("Заочная физико-техническая школа при МФТИ", "https://school.mipt.ru/",
                 new Organization.Experience(YearMonth.of(1987, 9), YearMonth.of(1993, 7), "Закончил с отличием"));
 

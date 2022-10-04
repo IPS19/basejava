@@ -3,6 +3,7 @@ package com.urise.webapp.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
+import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TextSection  extends Sections implements Serializable {
@@ -11,6 +12,11 @@ public class TextSection  extends Sections implements Serializable {
     private String description;
 
     public TextSection() {
+    }
+
+    public TextSection(String content) {
+        Objects.requireNonNull(content, "content must not be null");
+        this.description = content;
     }
 
     public String getDescription() {
