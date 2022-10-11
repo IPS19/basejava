@@ -2,28 +2,27 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.*;
 
-import java.time.YearMonth;
 import java.util.Map;
 
 public class ResumeTestData {
 
     public static Resume createResume(String uuid, String fullName) {
         Resume gKislin = new Resume(uuid, fullName);
-        gKislin.addContact(ContactType.PHONE, "+7(921) 855-0482");
-        gKislin.addContact(ContactType.SKYPE, "grigory.kislin");
-        gKislin.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
-        gKislin.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-        gKislin.addContact(ContactType.GITHUB, "https://github.com/gkislin");
-        gKislin.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
-        gKislin.addContact(ContactType.HOMEPAGE, "http://gkislin.ru/");
+        gKislin.setSection(ContactType.PHONE, "+7(921) 855-0482");
+        gKislin.setSection(ContactType.SKYPE, "grigory.kislin");
+        gKislin.setSection(ContactType.EMAIL, "gkislin@yandex.ru");
+        gKislin.setSection(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        gKislin.setSection(ContactType.GITHUB, "https://github.com/gkislin");
+        gKislin.setSection(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
+        gKislin.setSection(ContactType.HOMEPAGE, "http://gkislin.ru/");
 
         TextSection objective = new TextSection();
         objective.setDescription("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям");
-        gKislin.addSection(SectionType.OBJECTIVE, objective);
+        gKislin.setContact(SectionType.OBJECTIVE, objective);
 
         TextSection personal = new TextSection();
         personal.setDescription("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры.");
-        gKislin.addSection(SectionType.PERSONAL, personal);
+        gKislin.setContact(SectionType.PERSONAL, personal);
 
         ListSection achievement = new ListSection();
         achievement.addElement("Организация команды и успешная реализация Java проектов для сторонних заказчиков: " +
@@ -45,7 +44,7 @@ public class ResumeTestData {
                 " через систему мониторинга Nagios. Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Jython/ Django).");
         achievement.addElement("Реализация протоколов по приему платежей всех основных платежных системы России " +
                 "(Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
-        gKislin.addSection(SectionType.ACHIEVEMENT, achievement);
+        gKislin.setContact(SectionType.ACHIEVEMENT, achievement);
 
         ListSection qualifications = new ListSection();
         qualifications.addElement("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
@@ -67,7 +66,7 @@ public class ResumeTestData {
         qualifications.addElement("Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, " +
                 "архитектурных шаблонов, UML, функционального программирования");
         qualifications.addElement("Родной русский, английский \"upper intermediate\"");
-        gKislin.addSection(SectionType.QUALIFICATIONS, qualifications);
+        gKislin.setContact(SectionType.QUALIFICATIONS, qualifications);
 /*
         Organization school = new Organization("Заочная физико-техническая школа при МФТИ", "https://school.mipt.ru/",
                 new Organization.Experience(YearMonth.of(1987, 9), YearMonth.of(1993, 7), "Закончил с отличием"));

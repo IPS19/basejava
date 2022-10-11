@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -17,6 +18,10 @@ public class ListSection  extends Sections implements Serializable {
 
     public ListSection(List<String> list) {
         this.list = list;
+    }
+
+    public ListSection(String... items) {
+        this(Arrays.asList(items));
     }
 
     public void setList(List<String> list) {

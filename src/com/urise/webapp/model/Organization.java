@@ -2,6 +2,7 @@ package com.urise.webapp.model;
 
 import com.urise.webapp.util.YearMonthAdapter;
 
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -17,6 +18,8 @@ import static com.urise.webapp.util.DateUtil.NOW;
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public static final Organization EMPTY = new Organization("", "", Experience.EMPTY);
+
     private List<Experience> institutionPeriod = new ArrayList<>();
     private Link homePage;
 
@@ -28,6 +31,11 @@ public class Organization implements Serializable {
     public Organization(String nameOfInstitution, String url, List<Experience> institutionPeriod) {
         this.institutionPeriod = institutionPeriod;
         this.homePage = new Link(nameOfInstitution, url);
+    }
+
+    public Organization(Link homePage, List<Experience> positions) {
+        this.homePage = homePage;
+        this.institutionPeriod = positions;
     }
 
     public Organization() {
@@ -61,6 +69,8 @@ public class Organization implements Serializable {
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Experience implements Serializable {
+        public static final Experience EMPTY = new Experience();
+
         @XmlJavaTypeAdapter(YearMonthAdapter.class)
         private YearMonth dateFrom;
         @XmlJavaTypeAdapter(YearMonthAdapter.class)

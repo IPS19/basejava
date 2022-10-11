@@ -100,7 +100,7 @@ public class DataStreamSrializer implements StreamSerializer {
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
 
-            readWithException(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+            readWithException(dis, () -> resume.setSection(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
 
             /*  readWithException(dis, new Reader() {
                 @Override
@@ -117,14 +117,14 @@ public class DataStreamSrializer implements StreamSerializer {
                         TextSection textSection = new TextSection();
                         textSection.setDescription(dis.readUTF());
 
-                        resume.addSection(sectionType, textSection);
+                        resume.setContact(sectionType, textSection);
                         break;
                     }
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
                         ListSection listSection = new ListSection(readList(dis, dis::readUTF));
 
-                        resume.addSection(sectionType, listSection);
+                        resume.setContact(sectionType, listSection);
                         break;
 
                     case EDUCATION:
@@ -170,7 +170,7 @@ public class DataStreamSrializer implements StreamSerializer {
                             experienceSection.addElement(organization);
                         });
 
-                        resume.addSection(sectionType, experienceSection);
+                        resume.setContact(sectionType, experienceSection);
                         break;
                     }
                 }
