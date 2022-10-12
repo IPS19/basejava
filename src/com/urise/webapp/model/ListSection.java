@@ -11,6 +11,8 @@ import java.util.List;
 public class ListSection  extends Sections implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public static final ListSection EMPTY = new ListSection("");
+
     private List<String> list = new ArrayList<>();
 
     public ListSection() {

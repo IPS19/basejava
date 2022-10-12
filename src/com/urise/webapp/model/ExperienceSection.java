@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,6 +15,10 @@ public class ExperienceSection extends Sections implements Serializable {
 
     public ExperienceSection(List<Organization> organizations) {
         this.organizations = organizations;
+    }
+
+    public ExperienceSection(Organization... organizations) {
+        this(Arrays.asList(organizations));
     }
 
     public ExperienceSection() {

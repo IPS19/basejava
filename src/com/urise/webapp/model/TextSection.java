@@ -9,6 +9,8 @@ import java.util.Objects;
 public class TextSection  extends Sections implements Serializable {
     private static long serialVersionUID = 1L;
 
+    public static final TextSection EMPTY = new TextSection("");
+
     private String description;
 
     public TextSection() {
