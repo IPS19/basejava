@@ -11,7 +11,7 @@
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <a href="resume?action=add" ><img src="img/add.png" title="добавить резюме"></a>
+    <a href="resume?action=add" title="добавить резюме"><img src="img/add.png" >добавить резюме</a>
 
     <br>
     <table border="1" cellpadding="8" cellspacing="0">
