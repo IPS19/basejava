@@ -77,15 +77,16 @@ public class SqlStorage implements Storage {
         });
     }
 
-
-
     @Override
     public void save(Resume r) {
         sqlHelper.transactionalExecute(conn -> {
                     try (PreparedStatement ps = conn.prepareStatement("INSERT INTO resume (uuid, full_name) VALUES (?,?)")) {
+                        String fullName = r.getFullName();
                         ps.setString(1, r.getUuid());
                         ps.setString(2, r.getFullName());
-                        ps.execute();
+                        if (fullName != null) {
+                            ps.execute();
+                        }
                     }
                     insertContacts(conn, r);
                     insertSections(conn, r);

@@ -95,6 +95,7 @@ public class ResumeServlet extends HttpServlet {
         String fullName = request.getParameter("fullName");
 
         final boolean isCreate = (uuid == null || uuid.length() == 0);
+
         Resume r;
         if (isCreate) {
             r = new Resume(fullName);
@@ -152,11 +153,14 @@ public class ResumeServlet extends HttpServlet {
                 }
             }
         }
-        if (isCreate) {
-            storage.save(r);
-        } else {
-            storage.update(r);
-        }
+            if (isCreate) {
+                storage.save(r);
+            } else {
+                storage.update(r);
+            }
+            if(r.getFullName().equals(""))
+                storage.delete(r.getUuid());
+
         response.sendRedirect("resume");
     }
 }
