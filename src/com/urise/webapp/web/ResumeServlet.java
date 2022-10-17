@@ -10,7 +10,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ResumeServlet extends HttpServlet {
 
@@ -125,6 +127,15 @@ public class ResumeServlet extends HttpServlet {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
+/*                        String[] splitValues = value.split("\n");
+                        List<String> listValues = Arrays.stream(splitValues)
+                                .filter(x->!x.equals("\n")).filter(x->!x.equals(""))
+                                .collect(Collectors.toList());
+                        for (String splitValue : splitValues) {
+                            if (!splitValue.equals("")) {
+                                listValues.add(splitValue);
+                            }
+                        }*/
                         r.setContact(type, new ListSection(value.split("\\n")));
                         break;
                     case EDUCATION:
@@ -153,13 +164,13 @@ public class ResumeServlet extends HttpServlet {
                 }
             }
         }
-            if (isCreate) {
-                storage.save(r);
-            } else {
-                storage.update(r);
-            }
-            if(r.getFullName().equals(""))
-                storage.delete(r.getUuid());
+        if (isCreate) {
+            storage.save(r);
+        } else {
+            storage.update(r);
+        }
+        if (r.getFullName().equals(""))
+            storage.delete(r.getUuid());
 
         response.sendRedirect("resume");
     }

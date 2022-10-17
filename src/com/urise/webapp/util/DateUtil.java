@@ -7,12 +7,16 @@ import java.time.format.DateTimeFormatter;
 public class DateUtil {
 
     public static final YearMonth NOW = YearMonth.of(3000,1);
+
+    static YearMonth now = YearMonth.now();
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM/yyyy");
+
 
 
     public static String format(YearMonth date) {
         if (date == null) return "";
-        return date.equals(NOW) ? "Сейчас" : date.format(DATE_FORMATTER);
+//        return date.equals(NOW) ? "Сейчас" : date.format(DATE_FORMATTER);
+        return date.isAfter(now) ? "Сейчас" : date.format(DATE_FORMATTER);
     }
 
     public static YearMonth parse(String date) {

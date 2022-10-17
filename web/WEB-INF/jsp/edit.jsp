@@ -19,7 +19,7 @@
     <input type="hidden" name="uuid" value="${resume.uuid}">
     <h1>Имя:</h1>
     <dl>
-      <input type="text" name="fullName" size=55 value="${resume.fullName}">
+      <input type="text" name="fullName" pattern="[а-я,А-Я, ]{1,35}" title="Введите имя на кириллице с большой быквы" size=55 value="${resume.fullName}">
     </dl>
     <h2>Контакты:</h2>
     <c:forEach var="type" items="<%=ContactType.values()%>">
@@ -90,7 +90,8 @@
       </c:choose>
     </c:forEach>
     <button type="submit">Сохранить</button>
-    <button onclick="window.history.back()">Отменить</button>
+    <button onclick="window.history.back(); return false">Отменить</button>
+
   </form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
