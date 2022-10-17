@@ -6,13 +6,17 @@ import com.urise.webapp.storage.Storage;
 import com.urise.webapp.util.DateUtil;
 import com.urise.webapp.util.HtmlUtil;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 public class ResumeServlet extends HttpServlet {
 
