@@ -131,16 +131,14 @@ public class ResumeServlet extends HttpServlet {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-/*                        String[] splitValues = value.split("\n");
+                        String[] splitValues = value.split("\\n");
                         List<String> listValues = Arrays.stream(splitValues)
-                                .filter(x->!x.equals("\n")).filter(x->!x.equals(""))
+                                .filter(x->x.length()>1)
                                 .collect(Collectors.toList());
-                        for (String splitValue : splitValues) {
-                            if (!splitValue.equals("")) {
-                                listValues.add(splitValue);
-                            }
-                        }*/
-                        r.setContact(type, new ListSection(value.split("\\n")));
+
+                        r.setContact(type, new ListSection(listValues));
+
+//                        r.setContact(type, new ListSection(value.split("\\n")));
                         break;
                     case EDUCATION:
                     case EXPERIENCE:
